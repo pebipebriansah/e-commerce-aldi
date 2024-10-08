@@ -4,9 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modernize Free</title>
+    <title><?= $title ?></title>
     <link rel="shortcut icon" type="image/png" href="<?= base_url('/admin/assets') ?>/images/logos/favicon.png" />
     <link rel="stylesheet" href="<?= base_url('/admin/assets') ?>/css/styles.min.css" />
+    <?= $this->renderSection('header'); ?>
+
 </head>
 
 <body>
@@ -33,7 +35,7 @@
                             <span class="hide-menu">Home</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                            <a class="sidebar-link" href="<?= base_url('admin/dashboard') ?>" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-layout-dashboard"></i>
                                 </span>
@@ -45,7 +47,7 @@
                             <span class="hide-menu">Kelola Produk</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                            <a class="sidebar-link" href="<?= base_url('admin/produk') ?>" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-article"></i>
                                 </span>
@@ -53,9 +55,9 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                            <a class="sidebar-link" href="<?= base_url('admin/kategori') ?>" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-alert-circle"></i>
+                                    <i class="ti ti-hanger-2"></i>
                                 </span>
                                 <span class="hide-menu">Kategori</span>
                             </a>
@@ -63,7 +65,7 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-cards"></i>
+                                    <i class="ti ti-shopping-cart"></i>
                                 </span>
                                 <span class="hide-menu">Pesanan</span>
                             </a>
@@ -75,7 +77,7 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-login"></i>
+                                    <i class="ti ti-users"></i>
                                 </span>
                                 <span class="hide-menu">User</span>
                             </a>
@@ -87,7 +89,7 @@
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-mood-happy"></i>
+                                    <i class="ti ti-report"></i>
                                 </span>
                                 <span class="hide-menu">Laporan Transaksi</span>
                             </a>
@@ -143,9 +145,9 @@
             <!--  Header End -->
             <div class="container-fluid">
                 <?= $this->renderSection('content'); ?>
-                <div class="py-6 px-6 text-center">
+                <!-- <div class="py-6 px-6 text-center">
                     <p class="mb-0 fs-4">Design and Developed by <a href="https://adminmart.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">AdminMart.com</a> Distributed by <a href="https://themewagon.com">ThemeWagon</a></p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -156,6 +158,7 @@
     <script src="<?= base_url('/admin/assets') ?>/libs/apexcharts/dist/apexcharts.min.js"></script>
     <script src="<?= base_url('/admin/assets') ?>/libs/simplebar/dist/simplebar.js"></script>
     <script src="<?= base_url('/admin/assets') ?>/js/dashboard.js"></script>
+    <?= $this->renderSection('script'); ?>
 </body>
 
 </html>

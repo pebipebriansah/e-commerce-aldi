@@ -31,15 +31,21 @@
         <div class="card w-100">
             <div class="card-body p-4">
                 <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="card-title fw-semibold">Kategori Produk</h5>
-                    <button type="button " class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategory"><i class="ti ti-plus"></i>Tambah Kategori</button>
+                    <h5 class="card-title fw-semibold">Daftar Produk</h5>
+                    <a href="<?= base_url('admin/produk/tambah') ?>" class="btn btn-primary"><i class="ti ti-plus"></i>Tambah Produk</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped text-nowrap mb-0 align-middle" id="myTable">
                         <thead class="text-dark fs-4">
                             <tr>
                                 <th class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-0 text-center">Nama Kategori</h6>
+                                    <h6 class="fw-semibold mb-0 text-start">Gambar Produk</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0">Nama Produk</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0">Harga</h6>
                                 </th>
                                 <th class="border-bottom-0">
                                     <h6 class="fw-semibold mb-0 text-center">Aksi</h6>
@@ -49,13 +55,19 @@
                         <tbody>
                             <?php foreach ($data as $item) : ?>
                                 <tr>
+                                    <td class="border-bottom-0 ">
+                                        <img src="<?= base_url('produk/') . $item['image'] ?>" alt="<?= $item['name'] ?>" class="rounded float-start" style="width:100px">
+                                    </td>
                                     <td class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 text-center"><?= $item['name'] ?></h6>
+                                        <h6 class="fw-semibold mb-0 "><?= $item['name'] ?></h6>
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0 ">Rp. <?= $item['price'] ?></h6>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="d-flex justify-content-center">
-                                            <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editCategory<?= $item['id'] ?>"><i class="ti ti-pencil"></i></button>
-                                            <button class="btn btn-danger" onclick="deleteKategori(<?= $item['id'] ?>)"><i class="ti ti-trash"></i></button>
+                                            <button class="btn btn-primary me-2"><i class="ti ti-eye"></i></button>
+                                            <button class="btn btn-danger" onclick="deleteKategori(<?= $item['produk_id'] ?>)"><i class="ti ti-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -97,38 +109,6 @@
         </div>
     </div>
 </div>
-<?php foreach ($data as $i) : ?>
-    <!-- Modal -->
-    <div class="modal fade" id="editCategory<?= $i['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Kategori</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="<?= base_url('admin/kategori/update') ?>" method="POST">
-                        <input type="hidden" value="<?= $i['id'] ?>" name="id">
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label
-                        ">Nama Kategori</label>
-                            <input type="text" class="form-control" name="name" value="<?= $i['name'] ?>" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label
-                        ">Deskripsi</label>
-                            <textarea type="text" class="form-control" name="deskripsi" id="exampleInputEmail1" aria-describedby="emailHelp"><?= $i['description'] ?></textarea>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-<?php endforeach ?>
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
@@ -150,7 +130,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 // Jika pengguna mengkonfirmasi, lakukan fetch untuk hapus data
-                fetch('<?= base_url('admin/kategori/delete') ?>', {
+                fetch('<?= base_url('admin/produk/delete') ?>', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
