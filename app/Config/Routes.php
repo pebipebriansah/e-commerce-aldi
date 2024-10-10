@@ -5,8 +5,14 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
+
+//  routes for admin login
+$routes->get('login', 'admin\AuthController::index');
+$routes->post('auth', 'admin\AuthController::auth');
+$routes->get('logout', 'admin\AuthController::logout');
+
 // route group for admin
-$routes->group('admin', ['namespace' => 'App\Controllers\admin'], function ($routes) {
+$routes->group('admin', ['filter' => 'authAdmin', 'namespace' => 'App\Controllers\admin'], function ($routes) {
     $routes->get('dashboard', 'DashboardController::index');
 
     $routes->get('kategori', 'KategoriController::index');
@@ -20,10 +26,6 @@ $routes->group('admin', ['namespace' => 'App\Controllers\admin'], function ($rou
     $routes->post('produk/delete', 'ProdukController::delete');
 });
 
-// rooute group for api
-$routes->group('api', ['namespace' => 'App\Controllers\admin'], function ($routes) {
-    $routes->get('kategori', 'KategoriController::getData');
-    $routes->post('kategori', 'KategoriController::create');
-    $routes->put('kategori/(:num)', 'KategoriController::update/$1');
-    $routes->delete('kategori/(:num)', 'KategoriController::delete/$1');
-});
+// routes home
+$routes->get('/', 'customer\HomeController::index');
+$routes->get('/shop', 'customer\ShopController::index');

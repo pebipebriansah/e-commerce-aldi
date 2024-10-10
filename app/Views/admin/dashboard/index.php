@@ -1,7 +1,18 @@
 <!-- use template -->
 <?= $this->extend('admin/template'); ?>
 
+
 <?= $this->section('content'); ?>
+<!-- sweet alert -->
+<?php if (session()->getFlashdata('success')) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '<?= session()->getFlashdata('success') ?>',
+        })
+    </script>
+<?php endif ?>
 <!--  Row 1 -->
 <div class="row">
     <div class="col-lg-8 d-flex align-items-strech">
