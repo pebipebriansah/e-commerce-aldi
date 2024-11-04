@@ -7,6 +7,8 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- vue js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title><?= $title ?></title>
 
     <!-- Google Font -->
@@ -22,6 +24,7 @@
     <link rel="stylesheet" href="<?= base_url('customer/') ?>css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="<?= base_url('customer/') ?>css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="<?= base_url('customer/') ?>css/style.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -72,8 +75,8 @@
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li class="active"><a href="<?= base_url('/') ?>">Home</a></li>
-                            <li><a href="<?= base_url('shop') ?>">Shop</a></li>
+                            <li class="<?= $title == 'Home' ? 'active' : '' ?>"><a href="<?= base_url('/') ?>">Home</a></li>
+                            <li class="<?= $title == 'Shop' ? 'active' : '' ?>"><a href="<?= base_url('shop') ?>">Shop</a></li>
                             <li><a href="<?= base_url('about-us') ?>">About Us</a></li>
                             <li><a href="<?= base_url('contact') ?>">Contacts</a></li>
                         </ul>

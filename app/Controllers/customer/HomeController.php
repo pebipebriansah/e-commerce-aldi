@@ -7,10 +7,17 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class HomeController extends BaseController
 {
+    protected $produkModel;
+
+    public function __construct()
+    {
+        $this->produkModel = new \App\Models\ProdukModel();
+    }
     public function index()
     {
         $data = [
-            'title' => 'Home'
+            'title' => 'Home',
+            'produk' => $this->produkModel->getProduk()
         ];
         return view('customer/home/home', $data);
     }

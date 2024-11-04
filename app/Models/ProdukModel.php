@@ -46,15 +46,65 @@ class ProdukModel extends Model
 
     public function getProduk()
     {
-        return $this->db->table('produk')
-            ->select('produk.id as produk_id, produk.name, produk.description, MIN(produk_varian.id) as varian_id, MIN(produk_varian.price) as price, MIN(produk_varian.stock) as stock, MIN(gambar_produk.image) as image')
-            ->join('produk_varian', 'produk_varian.product_id = produk.id')
-            ->join('gambar_produk', 'gambar_produk.product_id = produk.id')
-            ->groupBy('produk.id')
-            ->orderBy('produk_id', 'DESC')  // Mengelompokkan berdasarkan produk
-            ->get()
-            ->getResultArray();
+        // Ambil semua data produk
+        $produk = $this->orderBy('id', 'DESC')->findAll();
+
+        // Array untuk menyimpan hasil akhir
+        $allData = [];
+
+        foreach ($produk as $p) {
+            // Ambil varian untuk setiap produk
+            $varian = $this->db->table('produk_varian')
+                ->where('product_id', $p['id'])
+                ->get()
+                ->getResultArray();
+
+            // Ambil gambar untuk setiap produk
+            $gambar = $this->db->table('gambar_produk')
+                ->where('product_id', $p['id'])
+                ->get()
+                ->getResultArray();
+
+            // Siapkan array size dan image untuk tiap produk
+            $size = [];
+            $image = [];
+
+            foreach ($varian as $v) {
+                $size[] = [
+                    'variant_id' => $v['id'],
+                    'size' => $v['size'],
+                    'price' => $v['price'],
+                    'stock' => $v['stock'],
+                    'color' => $v['color'],
+                    'discount' => $v['discount'],
+                ];
+            }
+
+            foreach ($gambar as $g) {
+                $image[] = [
+                    'id' => $g['id'],
+                    'image' => $g['image'],
+                    'is_primary' => $g['is_primary']
+                ];
+            }
+
+            // Struktur data untuk tiap produk
+            $data = [
+                'produk_id' => $p['id'],
+                'name' => $p['name'],
+                'description' => $p['description'],
+                'category_id' => $p['category_id'],
+                'size' => $size,
+                'image' => $image,
+            ];
+
+            // Tambahkan data produk ke array hasil akhir
+            $allData[] = $data;
+        }
+
+        return $allData;
     }
+
     // insert data produk
     public function insertProduk($data)
     {
@@ -70,17 +120,19 @@ class ProdukModel extends Model
             // Konversi array ke JSON jika diperlukan
             $this->db->table('produk_varian')->insert([
                 'product_id' => $product_id,
-                'size' => $variant['size'], // Jika size di sini hanya string, langsung dimasukkan
+                'size' => $variant['size'],
+                'color' => $variant['color'], // Jika size di sini hanya string, langsung dimasukkan
                 'price' => $variant['price'], // Harga
                 'stock' => $variant['stock'], // Stok
             ]);
         }
 
         // Simpan gambar ke tabel gambar_produk
-        foreach ($data['images'] as $image) {
+        foreach ($data['images'] as $index => $image) {
             $this->db->table('gambar_produk')->insert([
                 'product_id' => $product_id,
-                'image' => $image
+                'image' => $image,
+                'is_primary' => $index === 0 ? 1 : 0,
             ]);
         }
     }
@@ -93,23 +145,50 @@ class ProdukModel extends Model
             'category_id' => $data['category_id'],
         ]);
 
-        // Loop melalui setiap varian
-        foreach ($data['variants'] as $variant) {
-            // Konversi array ke JSON jika diperlukan
-            $this->db->table('produk_varian')->where('product_id', $data['id'])->set([
-                'product_id' => $data['id'],
-                'size' => $variant['size'], // Jika size di sini hanya string, langsung dimasukkan
-                'price' => $variant['price'], // Harga
-                'stock' => $variant['stock'], // Stok
-            ])->update();
+        if ($data['variants']) {
+            // delete all variant with id
+            $this->db->table('produk_varian')->where('product_id', $data['id'])->delete();
+            // Loop melalui setiap varian
+            foreach ($data['variants'] as $variant) {
+                // Konversi array ke JSON jika diperlukan
+                $this->db->table('produk_varian')->insert([
+                    'product_id' => $data['id'],
+                    'size' => $variant['size'], // Jika size di sini hanya string, langsung dimasukkan
+                    'price' => $variant['price'], // Harga
+                    'color' => $variant['color'], // Warna
+                    'stock' => $variant['stock'], // Stok
+                    'discount' => $variant['discount'], // Diskon
+                ]);
+            }
         }
 
-        // Simpan gambar ke tabel gambar_produk
-        foreach ($data['images'] as $image) {
-            $this->db->table('gambar_produk')->where('product_id', $data['id'])->set([
-                'product_id' => $data['id'],
-                'image' => $image
-            ])->update();
+        if ($data['imageId']) {
+            // Ambil semua gambar berdasarkan product_id
+            $images = $this->db->table('gambar_produk')->where('product_id', $data['id'])->get()->getResultArray();
+
+            // Hapus setiap file gambar dari folder dan data dari database
+            foreach ($images as $image) {
+                $filePath = 'produk/' . $image['image'];
+
+                // Hapus file jika ada
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+
+            // Hapus data gambar dari database berdasarkan product_id
+            $this->db->table('gambar_produk')->where('product_id', $data['id'])->delete();
+        }
+
+        if ($data['images']) {
+            // Simpan gambar ke tabel gambar_produk
+            foreach ($data['images'] as $index => $image) {
+                $this->db->table('gambar_produk')->insert([
+                    'product_id' => $data['id'],
+                    'image' => $image,
+                    'is_primary' => 0,
+                ]);
+            }
         }
     }
 
@@ -122,5 +201,48 @@ class ProdukModel extends Model
         $this->db->table('gambar_produk')->where('product_id', $id)->delete();
 
         return true;
+    }
+
+    public function getProdukById($id)
+    {
+        // cari ke tabel roduk
+        $produk = $this->find($id);
+        // cari ke tabel produk_varian
+        $varian = $this->db->table('produk_varian')->where('product_id', $id)->get()->getResultArray();
+        // cari ke tabel gambar_produk
+        $gambar = $this->db->table('gambar_produk')->where('product_id', $id)->get()->getResultArray();
+
+        $size = [];
+        $image = [];
+
+        foreach ($varian as $v) {
+            $size[] = [
+                'variant_id' => $v['id'],
+                'size' => $v['size'],
+                'price' => $v['price'],
+                'stock' => $v['stock'],
+                'color' => $v['color'],
+                'discount' => $v['discount'],
+            ];
+        }
+        foreach ($gambar as $g) {
+            $image[] = [
+                'id' => $g['id'],
+                'image' => $g['image'],
+                'is_primary' => $g['is_primary']
+            ];
+        }
+
+        $data = [
+            'product_id' => $id,
+            'name' => $produk['name'],
+            'description' => $produk['description'],
+            'category_id' => $produk['category_id'],
+            'size' => $size,
+            'image' => $image,
+
+        ];
+
+        return $data;
     }
 }

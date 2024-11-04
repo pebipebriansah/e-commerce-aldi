@@ -56,18 +56,37 @@
                             <?php foreach ($data as $item) : ?>
                                 <tr>
                                     <td class="border-bottom-0 ">
-                                        <img src="<?= base_url('produk/') . $item['image'] ?>" alt="<?= $item['name'] ?>" class="rounded float-start" style="width:100px">
+                                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                            <div class="carousel-inner ">
+                                                <?php foreach ($item['image'] as $img) : ?>
+                                                    <div class="carousel-item <?= $img['is_primary'] == 1 ? 'active' : '' ?>">
+                                                        <img src="<?= base_url('produk/' . $img['image']) ?>" class="rounded float-start" alt="..." style="width: 100px;">
+                                                    </div>
+                                                <?php endforeach ?>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 "><?= $item['name'] ?></h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 ">Rp. <?= $item['price'] ?></h6>
+                                        <select name="" id="" class="form-select">
+                                            <?php foreach ($item['size'] as $variant) : ?>
+                                                <?php
+                                                // menghitung diskon
+                                                $diskon = $variant['price'] * $variant['discount'] / 100;
+                                                $diskon = $variant['price'] - $diskon;
+                                                // mengubah format angka menjadi rupiah
+                                                $diskonFormated = number_format($diskon, 0, ',', '.');
+                                                ?>
+                                                <option value="<?= $variant['price'] ?>"><?= $variant['size'], ' - ', 'Rp. ', $diskonFormated, ' - ', $variant['color'], ' - ', 'Disc ', $variant['discount'], '%' ?></option>
+                                            <?php endforeach ?>
+                                        </select>
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="d-flex justify-content-center">
-                                            <button class="btn btn-primary me-2"><i class="ti ti-eye"></i></button>
-                                            <button class="btn btn-danger" onclick="deleteKategori(<?= $item['produk_id'] ?>)"><i class="ti ti-trash"></i></button>
+                                            <a href="<?= base_url('admin/produk/edit/' . $item['produk_id']) ?>" class="btn btn-primary me-2"><i class="ti ti-eye"></i> </a>
+                                            <button class="btn btn-danger me-2" onclick="deleteKategori(<?= $item['produk_id'] ?>)"><i class="ti ti-trash"></i></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -76,36 +95,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Kategori</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="<?= base_url('admin/kategori/add') ?>" method="POST">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label
-                        ">Nama Kategori</label>
-                        <input type="text" class="form-control" name="name" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label
-                        ">Deskripsi</label>
-                        <textarea type="text" class="form-control" name="deskripsi" id="exampleInputEmail1" aria-describedby="emailHelp"></textarea>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>
-            </form>
         </div>
     </div>
 </div>

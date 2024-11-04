@@ -23,9 +23,13 @@ $routes->group('admin', ['filter' => 'authAdmin', 'namespace' => 'App\Controller
     $routes->get('produk', 'ProdukController::index');
     $routes->get('produk/tambah', 'ProdukController::tambah');
     $routes->post('produk/add', 'ProdukController::add');
+    $routes->post('produk/update', 'ProdukController::update');
     $routes->post('produk/delete', 'ProdukController::delete');
+    $routes->get('produk/edit/(:num)', 'ProdukController::edit/$1');
 });
 
 // routes home
 $routes->get('/', 'customer\HomeController::index');
 $routes->get('/shop', 'customer\ShopController::index');
+$routes->get('/shop/(:num)', 'customer\ShopController::detail/$1');
+$routes->post('/cart/add', 'customer\ShopController::addToCart');

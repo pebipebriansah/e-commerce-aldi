@@ -9,17 +9,20 @@ class ProdukController extends BaseController
 {
     protected $produkModel;
     protected $kategoriModel;
+    protected $imageModel;
     // cunstructor
     public function __construct()
     {
         $this->produkModel = new \App\Models\ProdukModel();
         $this->kategoriModel = new \App\Models\KategoriModel();
+        $this->imageModel = new \App\Models\GambarModel();
     }
     public function index()
     {
+        $produk = $this->produkModel->getProduk();
         $data = [
             'title' => 'Produk',
-            'data' => $this->produkModel->getProduk()
+            'data' => $produk,
         ];
 
         return view('admin/produk/produk', $data);
@@ -43,16 +46,19 @@ class ProdukController extends BaseController
         $sizes = $this->request->getPost('size');
         $prices = $this->request->getPost('price');
         $stocks = $this->request->getPost('stock');
+        $colors = $this->request->getPost('color');
 
         // Proses gambar
-        $image = $this->request->getFile('image');
+        $images = $this->request->getFileMultiple('images'); // Mendapatkan semua file gambar
 
-        // Simpan gambar ke folder
-        if ($image && $image->isValid() && !$image->hasMoved()) {
-            $imageName = $image->getRandomName();
-            $image->move('produk', $imageName);
-        } else {
-            $imageName = 'default.jpg'; // Jika gambar tidak di-upload
+        // Simpan gambar ke folder dan buat array untuk menyimpan nama file
+        $imageNames = [];
+        foreach ($images as $image) {
+            if ($image->isValid() && !$image->hasMoved()) {
+                $imageName = $image->getRandomName();
+                $image->move('produk', $imageName);
+                $imageNames[] = $imageName;
+            }
         }
 
         // Siapkan array varian
@@ -61,7 +67,8 @@ class ProdukController extends BaseController
             $variants[] = [
                 'size' => $sizes[$i],
                 'price' => $prices[$i],
-                'stock' => $stocks[$i]
+                'stock' => $stocks[$i],
+                'color' => $colors[$i]
             ];
         }
 
@@ -69,8 +76,8 @@ class ProdukController extends BaseController
             'name' => $name,
             'description' => $deskripsi,
             'category_id' => $kategori,
-            'variants' => $variants, // Kirim data varian dalam bentuk array
-            'images' => [$imageName] // Gambar dalam bentuk array, jika lebih dari satu bisa ditambahkan
+            'variants' => $variants,
+            'images' => $imageNames // Array gambar
         ];
 
         // Kirim data ke model
@@ -108,5 +115,78 @@ class ProdukController extends BaseController
             'status' => false,
             'message' => 'ID tidak valid ' . $id,
         ]);
+    }
+
+    public function edit($id)
+    {
+        $produk = $this->produkModel->getProdukById($id);
+        $category = $this->kategoriModel->findAll();
+        $data = [
+            'title' => 'Edit Produk',
+            'product' => $produk,
+            'categories' => $category
+        ];
+        return view('admin/produk/edit', $data);
+    }
+
+    public function update()
+    {
+        $id = $this->request->getPost('id');
+        $name = $this->request->getPost('name');
+        $deskripsi = $this->request->getPost('deskripsi');
+        $kategori = $this->request->getPost('kategori');
+        $imagesToDelete = json_decode($this->request->getPost('images_to_delete'), true); // Gambar yang ditandai untuk dihapus
+        $uploadedImages = $this->request->getFileMultiple('images'); // Mendapatkan semua file yang di-upload
+
+        $sizes = $this->request->getPost('size');
+        $prices = $this->request->getPost('price');
+        $stocks = $this->request->getPost('stock');
+        $colors = $this->request->getPost('color');
+        $discounts = $this->request->getPost('discount');
+
+
+        // Hapus gambar yang ditandai untuk dihapus
+        $imageIdDelete = [];
+        if (!empty($imagesToDelete)) {
+            foreach ($imagesToDelete as $imageId) {
+                $imageIdDelete[] = $imageId;
+            }
+        }
+
+        $imageNames = [];
+        if (!empty($uploadedImages)) {
+            foreach ($uploadedImages as $image) {
+                if ($image->isValid() && !$image->hasMoved()) {
+                    $imageName = $image->getRandomName();
+                    $image->move('produk', $imageName);
+                    $imageNames[] = $imageName;
+                }
+            }
+        }
+
+        // Siapkan array varian
+        $variants = [];
+        for ($i = 0; $i < count($sizes); $i++) {
+            $variants[] = [
+                'size' => $sizes[$i],
+                'price' => $prices[$i],
+                'stock' => $stocks[$i],
+                'color' => $colors[$i],
+                'discount' => $discounts[$i]
+            ];
+        }
+
+        $data = [
+            'id' => $id,
+            'name' => $name,
+            'description' => $deskripsi,
+            'category_id' => $kategori,
+            'variants' => $variants,
+            'images' => $imageNames,
+            'imageId' => $imageIdDelete // Array gambar
+        ];
+
+        $this->produkModel->updateProduk($data);
+        return redirect()->to(base_url('admin/produk'))->with('success', 'Produk berhasil diperbarui');
     }
 }
