@@ -317,15 +317,25 @@
                     user_id: userId
                 }),
             })
-            .then(response => response.json())
+            .then(response => {
+                // Cek apakah respons sukses
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 console.log('Success:', data);
                 // sweetalert
                 Swal.fire({
                     icon: 'success',
                     title: 'Produk berhasil ditambahkan ke keranjang',
-                    showConfirmButton: false,
-                    timer: 1500
+                    showConfirmButton: true,
+                    confirmButtonText: 'Lihat Keranjang',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '<?= base_url('cart') ?>';
+                    }
                 });
             })
             .catch((error) => {

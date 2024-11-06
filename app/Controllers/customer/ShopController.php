@@ -51,7 +51,7 @@ class ShopController extends BaseController
 
     public function addToCart()
     {
-        //    get data from json
+        // Dapatkan data dari JSON
         $data = $this->request->getJSON();
         $variant_id = $data->variant_id;
         $qty = $data->qty;
@@ -63,16 +63,62 @@ class ShopController extends BaseController
             'user_id' => $user_id
         ];
 
-        // cek apakah produk sudah ada di keranjang
-        $cek = $this->cartModel->where('product_variant_id', $variant_id)->where('user_id', $user_id)->first();
+        // Cek apakah produk sudah ada di keranjang
+        $cek = $this->cartModel->where('product_variant_id', $variant_id)
+            ->where('user_id', $user_id)
+            ->first();
+
         if ($cek) {
+            // Jika sudah ada, tambahkan jumlahnya
             $dataAdd['quantity'] = $cek['quantity'] + $qty;
             $simpan = $this->cartModel->update($cek['id'], $dataAdd);
+
             if ($simpan) {
                 return $this->response->setJSON(['status' => 'success', 'message' => 'Berhasil menambahkan ke keranjang']);
             } else {
                 return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal menambahkan ke keranjang']);
             }
+        } else {
+            // Jika belum ada, buat entri baru di keranjang
+            $simpan = $this->cartModel->insert($dataAdd);
+
+            if ($simpan) {
+                return $this->response->setJSON(['status' => 'success', 'message' => 'Produk berhasil ditambahkan ke keranjang']);
+            } else {
+                return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal menambahkan produk ke keranjang']);
+            }
+        }
+    }
+
+    public function cart()
+    {
+        $costumer_id = session()->get('id');
+        $cart = $this->cartModel->getCart($costumer_id);
+
+        $data = [
+            'title' => 'Keranjang Belanja',
+            'produk' => $cart,
+        ];
+        return view('customer/shop/cart', $data);
+    }
+
+    public function countCart()
+    {
+        $costumer_id = session()->get('id');
+        $cart = $this->cartModel->where('user_id', $costumer_id)->countAllResults();
+
+        return $this->response->setJSON(['count' => $cart]);
+    }
+
+    public function deleteCart()
+    {
+        $id = $this->request->getPost('id');
+        $delete = $this->cartModel->delete($id);
+
+        if ($delete) {
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Berhasil menghapus produk dari keranjang']);
+        } else {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal menghapus produk dari keranjang']);
         }
     }
 }

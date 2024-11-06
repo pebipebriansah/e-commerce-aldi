@@ -506,6 +506,7 @@ ol {
 .header__nav__option {
   text-align: right;
   padding: 30px 0;
+  position: relative;
 }
 
 .header__nav__option a {
@@ -534,6 +535,54 @@ ol {
   margin-left: -20px;
   position: relative;
   top: 3px;
+}
+
+/* Styling untuk dropdown */
+.header__nav__option .price ul {
+  display: none; /* Sembunyikan ul secara default */
+  position: absolute;
+  background-color: #fff;
+  list-style-type: none;
+  margin: 5px 0 0;
+  padding: 10px 0;
+  width: 150px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+/* Styling untuk dropdown */
+.header__nav__option .price ul {
+  display: none; /* Sembunyikan ul secara default */
+  position: absolute;
+  background-color: #fff;
+  list-style-type: none;
+  margin: 10px 0 0;
+  padding: 10px 0;
+  width: 150px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.header__nav__option .price ul li {
+  padding: 10px;
+  text-align: left;
+  color: #0d0d0d;
+  font-size: 14px;
+}
+.header__nav__option .price ul li a {
+  text-align: left;
+  color: #0d0d0d;
+  font-size: 14px;
+}
+
+.header__nav__option .price ul li:hover {
+  background-color: #f1f1f1;
+}
+
+/* Tampilkan dropdown ketika kelas "show" ada di ul */
+.header__nav__option .price ul.show {
+  display: block;
 }
 
 .offcanvas-menu-wrapper {

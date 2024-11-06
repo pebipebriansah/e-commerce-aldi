@@ -84,10 +84,22 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__nav__option">
-                        <a href="#" class="search-switch"><img src="<?= base_url('customer/') ?>img/icon/search.png" alt=""></a>
-                        <a href="#"><img src="<?= base_url('customer/') ?>img/icon/heart.png" alt=""></a>
-                        <a href="#"><img src="<?= base_url('customer/') ?>img/icon/cart.png" alt=""> <span>0</span></a>
-                        <div class="price">$0.00</div>
+                        <a href="<?= base_url('cart') ?>"><img src="<?= base_url('customer/') ?>img/icon/cart.png" alt=""> <span>0</span></a>
+                        <!-- profile -->
+                        <?php if (session()->get('isLoggedIn') == true) : ?>
+                            <!-- jika sudah login -->
+                            <div class="price" id="dropdownButton">
+                                <?= session()->get('full_name') ?> <i class="arrow_carrot-down"></i>
+                                <ul id="dropdownMenu">
+                                    <li><a href="#">Profil Saya</a> </li>
+                                    <li><a href="#">Pesanan Saya</a> </li>
+                                    <li><a href="<?= base_url('logout-customer') ?>">Logout</a> </li>
+                                </ul>
+                            </div>
+                        <?php else : ?>
+
+                            <a class="btn btn-dark" href="<?= base_url('customer/login') ?>">Login</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -163,6 +175,38 @@
     <script src="<?= base_url('customer/') ?>js/mixitup.min.js"></script>
     <script src="<?= base_url('customer/') ?>js/owl.carousel.min.js"></script>
     <script src="<?= base_url('customer/') ?>js/main.js"></script>
+
+    <?= $this->renderSection('script'); ?>
+    <script>
+        // Toggle dropdown on click
+        document.getElementById('dropdownButton').addEventListener('click', function(event) {
+            event.stopPropagation(); // Mencegah event klik untuk bubbling ke elemen di luar
+            document.getElementById('dropdownMenu').classList.toggle('show');
+        });
+
+        // Tutup dropdown ketika klik di luar
+        document.addEventListener('click', function(event) {
+            var dropdownButton = document.getElementById('dropdownButton');
+            var dropdownMenu = document.getElementById('dropdownMenu');
+            var isClickInside = dropdownButton.contains(event.target) || dropdownMenu.contains(event.target);
+
+            if (!isClickInside) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+
+        // Get count cart
+        function getCountCart() {
+            fetch('<?= base_url('cart/count') ?>')
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector('.header__nav__option a span').textContent = data.count;
+                });
+        }
+
+        // jalankan get count cart
+        getCountCart();
+    </script>
 </body>
 
 </html>
