@@ -121,4 +121,34 @@ class ShopController extends BaseController
             return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal menghapus produk dari keranjang']);
         }
     }
+
+    public function checkout()
+    {
+        $costumer_id = session()->get('id');
+        $cart = $this->cartModel->getCart($costumer_id);
+        $provinsi = $this->cartModel->getProvinsi();
+
+        $ekspedisi = [
+            [
+                'id' => 'jne',
+                'name' => 'JNE'
+            ],
+            [
+                'id' => 'pos',
+                'name' => 'POS'
+            ],
+            [
+                'id' => 'tiki',
+                'name' => 'TIKI'
+            ]
+        ];
+
+        $data = [
+            'title' => 'Checkout',
+            'produk' => $cart,
+            'provinsi' => $provinsi,
+            'ekspedisi' => $ekspedisi
+        ];
+        return view('customer/shop/checkout', $data);
+    }
 }

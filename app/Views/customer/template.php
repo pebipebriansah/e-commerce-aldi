@@ -7,8 +7,6 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- vue js -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title><?= $title ?></title>
 
     <!-- Google Font -->
@@ -25,6 +23,8 @@
     <link rel="stylesheet" href="<?= base_url('customer/') ?>css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="<?= base_url('customer/') ?>css/style.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- render header -->
+    <?= $this->renderSection('header'); ?>
 </head>
 
 <body>
@@ -165,7 +165,7 @@
     <!-- Search End -->
 
     <!-- Js Plugins -->
-    <script src="<?= base_url('customer/') ?>js/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="<?= base_url('customer/') ?>js/bootstrap.min.js"></script>
     <script src="<?= base_url('customer/') ?>js/jquery.nice-select.min.js"></script>
     <script src="<?= base_url('customer/') ?>js/jquery.nicescroll.min.js"></script>

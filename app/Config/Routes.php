@@ -43,3 +43,9 @@ $routes->get('cart', 'customer\ShopController::cart');
 $routes->post('/cart/add', 'customer\ShopController::addToCart');
 $routes->get('cart/count', 'customer\ShopController::countCart');
 $routes->post('cart/delete', 'customer\ShopController::deleteCart');
+// checkout
+$routes->get('checkout', 'customer\ShopController::checkout');
+
+// ongkir api
+$routes->post('kabupaten', 'customer\OngkirController::index');
+$routes->post('ongkir', 'customer\OngkirController::ongkir');

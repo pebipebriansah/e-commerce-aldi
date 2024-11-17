@@ -7,11 +7,11 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__text">
-                    <h4>Shopping Cart</h4>
+                    <h4><?= $title ?></h4>
                     <div class="breadcrumb__links">
                         <a href="./index.html">Home</a>
                         <a href="./shop.html">Shop</a>
-                        <span>Shopping Cart</span>
+                        <span><?= $title ?></span>
                     </div>
                 </div>
             </div>
@@ -72,11 +72,11 @@
                             <a href="<?= base_url('shop') ?>">Continue Shopping</a>
                         </div>
                     </div>
-                    <!-- <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn update__btn">
-                            <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+                            <a href="#"> Update cart</a>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -86,7 +86,7 @@
                         <li>Total <span>Rp. <?= number_format($subtotal, 0, ',', '.') ?></span></li>
                         <!-- <li>Total <span>$ 169.50</span></li> -->
                     </ul>
-                    <a href="#" class="primary-btn" onclick="checkOut()">Proceed to checkout</a>
+                    <a href="<?= base_url('checkout') ?>" class="primary-btn">Proses Checkout</a>
                 </div>
             </div>
         </div>
