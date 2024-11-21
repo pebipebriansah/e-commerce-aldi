@@ -91,7 +91,8 @@ class OngkirController extends BaseController
             $data_paket = $array_response['rajaongkir']['results'][0]['costs'];
             echo "<option value=''>--Pilih Paket---</option>";
             foreach ($data_paket as $key => $value) {
-                echo "<option value='" . $value['service'] . "' ongkir='" . $value['cost'][0]['value'] . "' estimasi='" . $value['cost'][0]['etd'] . " Hari'>";
+                $estimasi = $value['service']  . " | " . $value['cost'][0]['etd'] . " Hari";
+                echo "<option value='" . $estimasi . "' ongkir='" . $value['cost'][0]['value'] . "' estimasi='" . $value['cost'][0]['etd'] . " Hari'>";
                 echo $value['service'] . " | Rp." . $value['cost'][0]['value'] . " | " . $value['cost'][0]['etd'] . " Hari";
                 echo "</option>";
             }

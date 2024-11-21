@@ -300,10 +300,13 @@
         const variant_id = document.getElementById('varian_id').value; // Ambil variant_id dari input tersembunyi
         const qty = document.querySelector('.pro-qty input').value;
         const userId = '<?= session()->get('id') ?>';
+        const price = document.getElementById('price-display').textContent;
+        // hilangkan tanda Rp dan titik Rp. 74,250 -> 74250
 
         console.log('Variant ID:', variant_id);
         console.log('Quantity:', qty);
         console.log('User ID:', userId);
+        console.log('Price:', price);
 
         // Kirim request AJAX ke server
         fetch('<?= base_url('cart/add') ?>', {
@@ -314,6 +317,7 @@
                 body: JSON.stringify({
                     variant_id: variant_id,
                     qty: qty,
+                    price: price,
                     user_id: userId
                 }),
             })
@@ -327,9 +331,17 @@
             .then(data => {
                 console.log('Success:', data);
                 // sweetalert
+                if (data.status === 'error') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.message,
+                    });
+                    return;
+                }
                 Swal.fire({
                     icon: 'success',
-                    title: 'Produk berhasil ditambahkan ke keranjang',
+                    title: data.message,
                     showConfirmButton: true,
                     confirmButtonText: 'Lihat Keranjang',
                 }).then((result) => {

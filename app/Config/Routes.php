@@ -33,6 +33,9 @@ $routes->group('admin', ['filter' => 'authAdmin', 'namespace' => 'App\Controller
     $routes->post('produk/update', 'ProdukController::update');
     $routes->post('produk/delete', 'ProdukController::delete');
     $routes->get('produk/edit/(:num)', 'ProdukController::edit/$1');
+
+    $routes->get('pesanan', 'PesananController::index');
+    $routes->get('pesanan/(:num)', 'PesananController::detail/$1');
 });
 
 // routes home
@@ -45,7 +48,10 @@ $routes->get('cart/count', 'customer\ShopController::countCart');
 $routes->post('cart/delete', 'customer\ShopController::deleteCart');
 // checkout
 $routes->get('checkout', 'customer\ShopController::checkout');
+$routes->post('checkout', 'customer\ShopController::order');
 
+$routes->get('shop/order', 'customer\ShopController::myOrder');
+$routes->get('shop/order/(:num)', 'customer\ShopController::detailOrder/$1');
 // ongkir api
 $routes->post('kabupaten', 'customer\OngkirController::index');
 $routes->post('ongkir', 'customer\OngkirController::ongkir');

@@ -92,7 +92,7 @@
                                 <?= session()->get('full_name') ?> <i class="arrow_carrot-down"></i>
                                 <ul id="dropdownMenu">
                                     <li><a href="#">Profil Saya</a> </li>
-                                    <li><a href="#">Pesanan Saya</a> </li>
+                                    <li><a href="<?= base_url('shop/order') ?>">Pesanan Saya</a> </li>
                                     <li><a href="<?= base_url('logout-customer') ?>">Logout</a> </li>
                                 </ul>
                             </div>

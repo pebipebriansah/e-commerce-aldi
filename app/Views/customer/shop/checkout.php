@@ -38,7 +38,9 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <form action="<?= base_url('pesan') ?>" method="POST">
+            <form action="<?= base_url('checkout') ?>" method="POST">
+                <input type="hidden" name="ongkir">
+                <input type="hidden" name="total">
                 <div class="row">
                     <div class="col-lg-8 col-md-6">
                         <h6 class="checkout__title">Pengiriman</h6>
@@ -67,7 +69,7 @@
                         </div>
                         <div class="checkout__input mt-3">
                             <p>Kecamatan<span>*</span></p>
-                            <input type="kecamatan" name="kecamatan">
+                            <input type="text" name="kec">
                         </div>
                         <div class="checkout__input mt-2">
                             <p>Alamat Lengkap<span>*</span></p>
@@ -246,10 +248,14 @@
             console.log("Ongkir: " + ongkir);
             // masukkan ongkir ke dalam tag span
             $('#ongkir').text('Rp. ' + ongkir);
+            // masukan ke input hidden
+            $('input[name="ongkir"]').val(ongkir);
+
 
             // hitung total
             var subtotal = <?= $subtotal ?>;
             var total = parseInt(ongkir) + subtotal;
+            $('input[name="total"]').val(total);
             console.log("Total: " + total);
             $('#total').text('Rp. ' + total);
         });

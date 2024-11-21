@@ -116,4 +116,15 @@ class CartModel extends Model
 
         return $data;
     }
+
+    public function getCartByUserId($id)
+    {
+        return $this->where('user_id', $id)->findAll();
+    }
+
+    public function deleteCart($id)
+    {
+        // delete cart by user_id
+        $this->where('user_id', $id)->delete();
+    }
 }
