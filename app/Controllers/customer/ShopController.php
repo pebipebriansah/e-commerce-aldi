@@ -219,4 +219,51 @@ class ShopController extends BaseController
 
         return view('customer/shop/order_detail', $data);
     }
+
+    public function upload_bukti($id)
+    {
+        $file = $this->request->getFile('bukti');
+        $fileName = $file->getRandomName();
+        $file->move('bukti', $fileName);
+
+        $data = [
+            'payment_method' => 'Transfer Bank',
+            'payment_date' => date('Y-m-d H:i:s'),
+            'order_id' => $id,
+            'bukti_transfer' => $fileName,
+            'payment_status' => 'pending'
+        ];
+
+        $update = $this->orderModel->uploadBukti($data);
+
+        if ($update) {
+            return redirect()->to(base_url('shop/order/' . $id))->with('success', 'Bukti pembayaran berhasil diupload');
+        } else {
+            return redirect()->to(base_url('shop/order/' . $id))->with('error', 'Gagal mengupload bukti pembayaran');
+        }
+    }
+
+    public function confirm($id)
+    {
+        $update = $this->orderModel->update($id, ['status' => 'completed']);
+
+        if ($update) {
+            return redirect()->to(base_url('shop/order/' . $id))->with('success', 'Pesanan berhasil dikonfirmasi');
+        } else {
+            return redirect()->to(base_url('shop/order/' . $id))->with('error', 'Gagal mengkonfirmasi pesanan');
+        }
+    }
+
+    public function review()
+    {
+        $data = $this->request->getPost();
+
+        $simpan = $this->orderModel->insertReview($data);
+
+        if ($simpan) {
+            return redirect()->to(base_url('shop/order/' . $data['order_id']))->with('success', 'Review berhasil ditambahkan');
+        } else {
+            return redirect()->to(base_url('shop/order/' . $data['order_id']))->with('error', 'Gagal menambahkan review');
+        }
+    }
 }

@@ -43,4 +43,9 @@ class UserModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getAllCustomer()
+    {
+        return $this->where('role', 'customer')->findAll();
+    }
 }

@@ -130,7 +130,7 @@ class OrderModel extends Model
         // relasi ke user
         $this->join('users', 'users.id = order.user_id');
         // select field
-        $this->select('order.*, users.full_name as user_name');
+        $this->select('order.*, users.full_name as user_name, users.phone as phone');
         // bangun data
         $orderItem = new OrderItemModel();
         // relasi order_item ke produk_varian
@@ -154,5 +154,42 @@ class OrderModel extends Model
             'pembayaran' => $pembayaran->where('order_id', $id)->first()
         ];
         return $data;
+    }
+
+    public function uploadBukti($data)
+    {
+        $pembayaran = new PembayaranModel();
+        $pembayaran->insert($data);
+
+        return true;
+    }
+
+    public function insertReview($data)
+    {
+        // relasi ke order_item
+        $this->join('order_item', 'order_item.order_id = order.id');
+        // where
+        $this->where('order_item.id', $data['order_item_id']);
+        // select field
+        $this->select('order_item.product_variant_id');
+        // get data
+        $order = $this->first();
+        $produkVarianId = $order['product_variant_id'];
+        // cari ke tabel produk_varian
+        $produkVarian = new ProdukVarianModel();
+        $produkVarian->where('id', $produkVarianId);
+        $produkVarian = $produkVarian->first();
+        // cek apakah produk varian ada
+        $reviews = [
+            'product_id' => $produkVarian['product_id'],
+            'user_id' => session()->get('id'),
+            'rating' => $data['rating'],
+            'review' => $data['review']
+        ];
+
+        // tabel reviews
+        $this->db->table('reviews')->insert($reviews);
+
+        return true;
     }
 }

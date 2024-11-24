@@ -31,52 +31,42 @@
         <div class="card w-100">
             <div class="card-body p-4">
                 <div class="col-12 d-flex justify-content-between align-items-center mb-4">
-                    <h5 class="card-title fw-semibold">Pesanan</h5>
+                    <h5 class="card-title fw-semibold">Customer</h5>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped text-nowrap mb-0 align-middle" id="myTable">
                         <thead class="text-dark fs-4">
                             <tr>
                                 <th class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-0">Tanggal</h6>
+                                    <h6 class="fw-semibold mb-0">No</h6>
                                 </th>
                                 <th class="border-bottom-0">
                                     <h6 class="fw-semibold mb-0">Nama Customer</h6>
                                 </th>
                                 <th class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-0">Total Pesanan</h6>
+                                    <h6 class="fw-semibold mb-0">Email</h6>
                                 </th>
                                 <th class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-0">Status</h6>
-                                </th>
-                                <th class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-0 text-center">Aksi</h6>
+                                    <h6 class="fw-semibold mb-0">No Hp</h6>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($data as $item) : ?>
+                            <?php
+                            $no = 1;
+                            foreach ($data as $item) : ?>
                                 <tr>
                                     <td class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 "><?= $item['order_date'] ?></h6>
+                                        <h6 class="fw-semibold mb-0 "><?= $no++ ?></h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <h6 class="fw-semibold mb-0 "><?= $item['user_name'] ?></h6>
+                                        <h6 class="fw-semibold mb-0 "><?= $item['full_name'] ?></h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <span class="badge bg-success rounded-3 fw-semibold">Rp. <?= number_format($item['total'], 0, ',', '.') ?></span>
-                                        </div>
+                                        <h6 class="fw-semibold mb-0 "><?= $item['email'] ?></h6>
                                     </td>
                                     <td class="border-bottom-0">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <span class="badge bg-success rounded-3 fw-semibold"><?= $item['status'] ?></span>
-                                        </div>
-                                    </td>
-                                    <td class="border-bottom-0">
-                                        <div class="d-flex justify-content-center">
-                                            <a href="<?= base_url('admin/pesanan/' . $item['id']) ?>" class="btn btn-primary"><i class="ti ti-eye"></i></a>
-                                        </div>
+                                        <h6 class="fw-semibold mb-0 "><?= $item['phone'] ?></h6>
                                     </td>
                                 </tr>
                             <?php endforeach ?>

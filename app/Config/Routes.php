@@ -36,6 +36,10 @@ $routes->group('admin', ['filter' => 'authAdmin', 'namespace' => 'App\Controller
 
     $routes->get('pesanan', 'PesananController::index');
     $routes->get('pesanan/(:num)', 'PesananController::detail/$1');
+    $routes->get('pesanan/konfirmasi/(:num)', 'PesananController::konfirmasi/$1');
+    $routes->post('pesanan/kirim/(:num)', 'PesananController::kirim/$1');
+
+    $routes->get('customer', 'CustomerController::index');
 });
 
 // routes home
@@ -52,6 +56,9 @@ $routes->post('checkout', 'customer\ShopController::order');
 
 $routes->get('shop/order', 'customer\ShopController::myOrder');
 $routes->get('shop/order/(:num)', 'customer\ShopController::detailOrder/$1');
+$routes->post('shop/upload_bukti/(:num)', 'customer\ShopController::upload_bukti/$1');
+$routes->get('shop/order/confirm/(:num)', 'customer\ShopController::confirm/$1');
+$routes->post('shop/review', 'customer\ShopController::review');
 // ongkir api
 $routes->post('kabupaten', 'customer\OngkirController::index');
 $routes->post('ongkir', 'customer\OngkirController::ongkir');

@@ -1,6 +1,26 @@
 <!-- use template -->
 <?= $this->extend('admin/template'); ?>
 <?= $this->section('content'); ?>
+
+<!-- sweet alert -->
+<?php if (session()->getFlashdata('success')) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: '<?= session()->getFlashdata('success') ?>',
+        })
+    </script>
+<?php endif; ?>
+<?php if (session()->getFlashdata('error')) : ?>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: '<?= session()->getFlashdata('error') ?>',
+        })
+    </script>
+<?php endif; ?>
 <!--  Row 1 -->
 <div class="row">
     <div class="col-lg-12 d-flex align-items-stretch">
@@ -10,6 +30,14 @@
                     <div class="col-12 d-flex justify-content-between align-items-center mb-4">
                         <h5 class=" fw-semibold">Detail Pesanan</h5>
                         <!-- btn konfirmasi pesanan -->
+                        <?php if ($data['order']['status'] == 'pending') : ?>
+                            <a href="<?= base_url('admin/pesanan/konfirmasi/' . $data['order']['id']) ?>" class="btn btn-primary">Konfirmasi Pesanan</a>
+                        <?php elseif ($data['order']['status'] == 'paid'): ?>
+                            <!-- button modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Kirim Pesanan
+                            </button>
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -18,7 +46,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <h6>Nama: <?= $data['order']['user_name'] ?></h6>
-                                <h6>No. Telp: </h6>
+                                <h6>No. Telp: <?= $data['order']['phone'] ?></h6>
                                 <!-- alamat -->
                                 <h6>Alamat: <?= $data['order']['shipping_address'] ?></h6>
                                 <h6>Ekspedisi: <?= strtoupper($data['order']['expedisi']) . ' - ' . $data['order']['estimasi'] ?></h6>
@@ -26,6 +54,7 @@
                             <div class="col-6">
 
                                 <h6>Tanggal: <?= $data['order']['order_date'] ?></h6>
+                                <h6>Metode Pembayaran: <?= $data['order']['payment_method'] ?></h6>
                                 <!-- status pembayaran -->
                                 <?php if ($data['order']['status'] == 'pending') : ?>
                                     <h6>Status Pembayaran: <span class="badge bg-danger">Pending</span></h6>
@@ -99,8 +128,10 @@
                     <div class="card">
                         <div class="card-body">
                             <h5>Bukti Pembayaran</h5>
-                            <?php if (!$data['pembayaran']) : ?>
+                            <?php if ($data['pembayaran'] == null) : ?>
                                 <h5>Belum Ada Bukti Pembayaran.</h5>
+                            <?php else : ?>
+                                <img src="<?= base_url('bukti/' . $data['pembayaran']['bukti_transfer']) ?>" alt="bukti transfer" class="img-fluid" style="width: 150px; lenght:150px;">
                             <?php endif ?>
                         </div>
                     </div>
@@ -111,6 +142,27 @@
     </div>
 </div>
 <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Kirim Pesanan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form action="<?= base_url('admin/pesanan/kirim/' .  $data['order']['id']) ?>" method="post">
+                    <div class="mb-3">
+                        <label for="resi" class="form-label">Nomor Resi</label>
+                        <input type="text" class="form-control" id="resi" name="resi" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kirim</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>

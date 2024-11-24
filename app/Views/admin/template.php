@@ -76,7 +76,7 @@
                             <span class="hide-menu">Customer</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
+                            <a class="sidebar-link" href="<?= base_url('admin/customer') ?>" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-users"></i>
                                 </span>
@@ -88,7 +88,7 @@
                             <span class="hide-menu">Pelaporan</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
+                            <a class="sidebar-link" href="<?= base_url('admin/laporan') ?>" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-report"></i>
                                 </span>
