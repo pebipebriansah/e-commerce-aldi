@@ -40,6 +40,8 @@ $routes->group('admin', ['filter' => 'authAdmin', 'namespace' => 'App\Controller
     $routes->post('pesanan/kirim/(:num)', 'PesananController::kirim/$1');
 
     $routes->get('customer', 'CustomerController::index');
+
+    $routes->get('laporan', 'LaporanController::index');
 });
 
 // routes home

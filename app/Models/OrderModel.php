@@ -122,9 +122,20 @@ class OrderModel extends Model
         $this->join('users', 'users.id = order.user_id');
         // select field
         $this->select('order.*, users.full_name as user_name');
+        // where
         return $this->findAll();
     }
 
+    public function getOrderWhere()
+    {
+        // relasi ke user
+        $this->join('users', 'users.id = order.user_id');
+        // select field
+        $this->select('order.*, users.full_name as user_name');
+        // where
+        $this->where('order.status', 'completed');
+        return $this->findAll();
+    }
     public function getOrderById($id)
     {
         // relasi ke user
@@ -191,5 +202,20 @@ class OrderModel extends Model
         $this->db->table('reviews')->insert($reviews);
 
         return true;
+    }
+
+    public function getOrderByMonth($year, $month)
+    {
+        $builder = $this->db->table('order');
+        $builder->select('DATE(order_date) as date, COUNT(*) as jumlah_order');
+        $builder->where('status', 'completed');
+        $builder->selectSum('total', 'total');
+        $builder->where('YEAR(order_date)', $year);
+        $builder->where('MONTH(order_date)', $month);
+        $builder->groupBy('DATE(order_date)'); // Kelompokkan berdasarkan tanggal
+        $builder->orderBy('DATE(order_date)', 'ASC');
+
+        $query = $builder->get();
+        return $query->getResultArray();
     }
 }
