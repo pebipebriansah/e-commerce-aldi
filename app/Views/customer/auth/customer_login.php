@@ -33,7 +33,7 @@
                         <div class="card mb-0">
                             <div class="card-body">
                                 <a href="#" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                    <img src="<?= base_url('admin/') ?>assets/images/logos/dark-logo.svg" width="180" alt="">
+                                    <img src="<?= base_url('customer/') ?>img/logo.png" width="180" alt="">
                                 </a>
                                 <p class="text-center">Silahkan Login Untuk Melanjutkan!</p>
                                 <form method="POST" action="<?= base_url('auth-customer') ?>">
