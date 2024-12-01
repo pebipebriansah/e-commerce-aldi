@@ -10,13 +10,13 @@
 <!-- Hero Section Begin -->
 <section class="hero">
     <div class="hero__slider owl-carousel">
-        <div class="hero__items set-bg" data-setbg="<?= base_url('customer/') ?>img/hero/hero-1.jpg">
+        <div class="hero__items set-bg" data-setbg="<?= base_url('customer/') ?>img/hero/hero-3.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-5 col-lg-7 col-md-8">
                         <div class="hero__text">
-                            <h6>Summer Collection</h6>
-                            <h2>Fall - Winter Collections 2030</h2>
+                            <h6>New Collection</h6>
+                            <h2>Hijab Kekinian</h2>
                             <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
                                 commitment to exceptional quality.</p>
                             <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
@@ -31,13 +31,13 @@
                 </div>
             </div>
         </div>
-        <div class="hero__items set-bg" data-setbg="<?= base_url('customer/') ?>img/hero/hero-2.jpg">
+        <div class="hero__items set-bg" data-setbg="<?= base_url('customer/') ?>img/hero/hero-6.jpg">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-5 col-lg-7 col-md-8">
                         <div class="hero__text">
-                            <h6>Summer Collection</h6>
-                            <h2>Fall - Winter Collections 2030</h2>
+                            <h6>Fashionable</h6>
+                            <h2>Nyaman digunakan</h2>
                             <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
                                 commitment to exceptional quality.</p>
                             <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
@@ -65,15 +65,16 @@
                 // menghitung diskon
                 // cari diskon terbesar
                 $maxDiscount = 0;
+                $variantPrice = 0;
                 foreach ($item['size'] as $variant) {
                     if ($variant['discount'] > $maxDiscount) {
                         $maxDiscount = $variant['discount'];
+                        $variantPrice = $variant['price'];
                     } else {
                         $maxDiscount = $maxDiscount;
                     }
                 }
-                $diskon = $variant['price'] * $maxDiscount / 100;
-                $diskon = $variant['price'] - $diskon;
+                $diskon = $variantPrice - ($variantPrice * $maxDiscount / 100);
                 ?>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6">
                     <div class="product__item">
@@ -87,7 +88,7 @@
                         <div class="product__item__text">
                             <h6><?= $item['name'] ?></h6>
                             <?php if ($maxDiscount > 0) : ?>
-                                <h5 class="text-danger">Rp. <?= number_format($diskon, 0, ',', '.') ?> <span class="coret">Rp. <?= number_format($variant['price'], 0, ',', '.') ?></span></h5>
+                                <h5 class="text-danger">Rp. <?= number_format($diskon, 0, ',', '.') ?> <span class="coret">Rp. <?= number_format($variantPrice, 0, ',', '.') ?></span></h5>
 
                             <?php else : ?>
                                 <h5>

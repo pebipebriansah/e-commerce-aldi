@@ -50,6 +50,7 @@ class AuthController extends BaseController
             'full_name' => $this->request->getVar('full_name'),
             'username' => $username,
             'email' => $this->request->getVar('email'),
+            'phone' => $this->request->getVar('phone'),
             'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
             'role' => 'customer'
         ];

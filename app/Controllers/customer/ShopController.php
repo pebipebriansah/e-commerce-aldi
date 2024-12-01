@@ -187,13 +187,14 @@ class ShopController extends BaseController
         $provinsi = $this->request->getPost('prov');
         $kabupaten = $this->request->getPost('kab');
         $kecamatan = $this->request->getPost('kec');
+        $kode_pos = $this->request->getPost('kode_pos');
         $alamat_lengkap = $this->request->getPost('alamat_lengkap');
         $ekspedisi = $this->request->getPost('ekspedisi');
         $estimasi = $this->request->getPost('estimasi');
         $ongkir = $this->request->getPost('ongkir');
         $total = $this->request->getPost('total');
 
-        $alamat = $alamat_lengkap . ', ' . $kecamatan . ', ' . $kabupaten . ', ' . $provinsi;
+        $alamat = $alamat_lengkap . ', ' . $kecamatan . ', ' . $kode_pos . ', ' . $kabupaten . ', ' . $provinsi;
         // generrate no_order INV-202108-0001
 
         $data = [

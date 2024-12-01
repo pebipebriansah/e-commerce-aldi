@@ -95,7 +95,7 @@
                             <div class="price" id="dropdownButton">
                                 <?= session()->get('full_name') ?> <i class="arrow_carrot-down"></i>
                                 <ul id="dropdownMenu">
-                                    <li><a href="#">Profil Saya</a> </li>
+                                    <li><a href="<?= base_url('profile') ?>">Profil Saya</a> </li>
                                     <li><a href="<?= base_url('shop/order') ?>">Pesanan Saya</a> </li>
                                     <li><a href="<?= base_url('logout-customer') ?>">Logout</a> </li>
                                 </ul>

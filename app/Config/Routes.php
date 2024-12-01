@@ -63,6 +63,12 @@ $routes->get('shop/order/(:num)', 'customer\ShopController::detailOrder/$1');
 $routes->post('shop/upload_bukti/(:num)', 'customer\ShopController::upload_bukti/$1');
 $routes->get('shop/order/confirm/(:num)', 'customer\ShopController::confirm/$1');
 $routes->post('shop/review', 'customer\ShopController::review');
+// contact
+$routes->get('/contact', 'customer\HomeController::contact');
+$routes->post('/contact', 'customer\HomeController::contact_us');
+// profile
+$routes->get('/profile', 'customer\HomeController::profile');
+$routes->post('/profile', 'customer\HomeController::update_profile');
 // ongkir api
 $routes->post('kabupaten', 'customer\OngkirController::index');
 $routes->post('ongkir', 'customer\OngkirController::ongkir');

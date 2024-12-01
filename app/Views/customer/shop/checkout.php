@@ -71,6 +71,10 @@
                             <p>Kecamatan<span>*</span></p>
                             <input type="text" name="kec">
                         </div>
+                        <div class="checkout__input mt-3">
+                            <p>Kode Pos<span>*</span></p>
+                            <input type="text" name="kode_pos">
+                        </div>
                         <div class="checkout__input mt-2">
                             <p>Alamat Lengkap<span>*</span></p>
                             <input type="text" placeholder="Alamat Lengkap" class="checkout__input__add" name="alamat_lengkap">
