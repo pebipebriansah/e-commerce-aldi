@@ -285,21 +285,10 @@ class ProdukModel extends Model
         }
 
         if ($data['imageId']) {
-            // Ambil semua gambar berdasarkan product_id
-            $images = $this->db->table('gambar_produk')->where('product_id', $data['id'])->get()->getResultArray();
-
-            // Hapus setiap file gambar dari folder dan data dari database
-            foreach ($images as $image) {
-                $filePath = 'produk/' . $image['image'];
-
-                // Hapus file jika ada
-                if (file_exists($filePath)) {
-                    unlink($filePath);
-                }
+            //  hapus image yang ditandai untuk dihapus (bisa saja banyak)
+            foreach ($data['imageId'] as $id) {
+                $this->db->table('gambar_produk')->where('id', $id)->delete();
             }
-
-            // Hapus data gambar dari database berdasarkan product_id
-            $this->db->table('gambar_produk')->where('product_id', $data['id'])->delete();
         }
 
         if ($data['images']) {

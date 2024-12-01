@@ -131,6 +131,7 @@ class ProdukController extends BaseController
 
     public function update()
     {
+
         $id = $this->request->getPost('id');
         $name = $this->request->getPost('name');
         $deskripsi = $this->request->getPost('deskripsi');

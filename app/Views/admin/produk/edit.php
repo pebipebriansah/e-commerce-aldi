@@ -6,8 +6,7 @@
         <div class="card w-100">
             <div class="card-body p-4">
                 <h5 class="card-title fw-semibold">Edit Produk</h5>
-                <form action="<?= base_url('admin/produk/update/') ?>" method="POST" enctype="multipart/form-data" class="mt-3">
-                    <?= csrf_field() ?> <!-- CSRF protection -->
+                <form action="<?= site_url('admin/produk/update') ?>" method="post" enctype="multipart/form-data" class="mt-3">
 
                     <input type="hidden" name="id" value="<?= $product['product_id'] ?>">
 
