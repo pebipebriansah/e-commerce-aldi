@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="<?= base_url('customer/') ?>css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="<?= base_url('customer/') ?>css/style.css" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- render header -->
     <?= $this->renderSection('header'); ?>
 </head>
@@ -69,7 +70,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="<?= base_url('customer/') ?>img/logo.png" alt=""></a>
+                        <a href="./index.html"><img src="<?= base_url('customer/') ?>img/logo.png" alt="" style="height: 60%; width: 60%;"></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -117,19 +118,17 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="footer__about">
                         <div class="footer__logo">
-                            <a href="#"><img src="<?= base_url('customer/') ?>img/footer-logo.png" alt=""></a>
+                            <a href="#"><img src="<?= base_url('customer/') ?>img/logo.png" alt=""></a>
                         </div>
-                        <p>The customer is at the heart of our unique business model, which includes design.</p>
+                        <p>Jl. Raya Siliwangi, Ciawigebang, Kec. Ciawigebang, Kabupaten Kuningan, Jawa Barat</p>
                     </div>
                 </div>
                 <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
                     <div class="footer__widget">
-                        <h6>Shopping</h6>
+                        <h6>Shop</h6>
                         <ul>
-                            <li><a href="#">Clothing Store</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
+                            <li><a href="#">Kategori</a></li>
+                            <li><a href="#">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -142,8 +141,7 @@
                             <script>
                                 document.write(new Date().getFullYear());
                             </script>
-                            All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                aria-hidden="true"></i>
+                            AyHijab Store
                         </p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </div>

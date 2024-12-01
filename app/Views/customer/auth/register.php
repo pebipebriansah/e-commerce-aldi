@@ -45,6 +45,10 @@
                                         <label for="exampleInputEmail1" class="form-label">Alamat Email</label>
                                         <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">No. HP</label>
+                                        <input type="text" class="form-control" name="no_hp" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    </div>
                                     <div class="mb-4">
                                         <label for="exampleInputPassword1" class="form-label">Password</label>
                                         <input type="password" class="form-control" name="password" id="exampleInputPassword1">
