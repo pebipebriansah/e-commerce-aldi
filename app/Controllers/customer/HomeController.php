@@ -21,4 +21,11 @@ class HomeController extends BaseController
         ];
         return view('customer/home/home', $data);
     }
+
+    public function getCategory()
+    {
+        $kategoriModel = new \App\Models\KategoriModel();
+        $kategori = $kategoriModel->findAll();
+        return $this->response->setJSON($kategori);
+    }
 }

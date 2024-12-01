@@ -15,6 +15,7 @@ class ShopController extends BaseController
     protected $produkVarianModel;
     protected $cartModel;
     protected $orderModel;
+    protected $categoryModel;
 
     public function __construct()
     {
@@ -22,13 +23,28 @@ class ShopController extends BaseController
         $this->produkVarianModel = new ProdukVarianModel();
         $this->cartModel = new CartModel();
         $this->orderModel = new OrderModel();
+        $this->categoryModel = new \App\Models\KategoriModel();
     }
     public function index()
     {
-        $produk = $this->produkModel->getProduk();
+        $idCategory = $this->request->getGet('category');
+
+        $search = $this->request->getGet('search');
+
+        if ($idCategory) {
+            $produk = $this->produkModel->getProdukByCategory($idCategory);
+        } else if ($search) {
+            $produk = $this->produkModel->searchProduk($search);
+        } else {
+            $produk = $this->produkModel->getProduk();
+        }
+
+        $category = $this->categoryModel->findAll();
         $data = [
             'title' => 'Shop',
-            'produk' => $produk
+            'produk' => $produk,
+            'search' => $search,
+            'category' => $category
         ];
         return view('customer/shop/shop', $data);
     }

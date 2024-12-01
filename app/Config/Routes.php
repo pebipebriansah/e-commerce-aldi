@@ -21,6 +21,7 @@ $routes->get('customer/login', 'admin\AuthController::customerLogin');
 // route group for admin
 $routes->group('admin', ['filter' => 'authAdmin', 'namespace' => 'App\Controllers\admin'], function ($routes) {
     $routes->get('dashboard', 'DashboardController::index');
+    $routes->get('dashboard', 'DashboardController::index');
 
     $routes->get('kategori', 'KategoriController::index');
     $routes->post('kategori/add', 'KategoriController::add');
@@ -46,6 +47,7 @@ $routes->group('admin', ['filter' => 'authAdmin', 'namespace' => 'App\Controller
 
 // routes home
 $routes->get('/', 'customer\HomeController::index');
+$routes->get('/get-category', 'customer\HomeController::getCategory');
 $routes->get('/shop', 'customer\ShopController::index');
 $routes->get('/shop/(:num)', 'customer\ShopController::detail/$1');
 $routes->get('cart', 'customer\ShopController::cart');

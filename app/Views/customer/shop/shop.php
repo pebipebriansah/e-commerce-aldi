@@ -33,8 +33,8 @@
             <div class="col-lg-3">
                 <div class="shop__sidebar">
                     <div class="shop__sidebar__search">
-                        <form action="#">
-                            <input type="text" placeholder="Search...">
+                        <form action="<?= base_url('shop') ?>" method="get">
+                            <input type="text" placeholder="Search..." name="search" value="<?= $search ?>">
                             <button type="submit"><span class="icon_search"></span></button>
                         </form>
                     </div>
@@ -48,15 +48,9 @@
                                     <div class="card-body">
                                         <div class="shop__sidebar__categories">
                                             <ul class="nice-scroll">
-                                                <li><a href="#">Men (20)</a></li>
-                                                <li><a href="#">Women (20)</a></li>
-                                                <li><a href="#">Bags (20)</a></li>
-                                                <li><a href="#">Clothing (20)</a></li>
-                                                <li><a href="#">Shoes (20)</a></li>
-                                                <li><a href="#">Accessories (20)</a></li>
-                                                <li><a href="#">Kids (20)</a></li>
-                                                <li><a href="#">Kids (20)</a></li>
-                                                <li><a href="#">Kids (20)</a></li>
+                                                <?php foreach ($category as $c) : ?>
+                                                    <li><a href="<?= base_url('shop?category=' . $c['id']) ?>"><?= $c['name'] ?></a></li>
+                                                <?php endforeach ?>
                                             </ul>
                                         </div>
                                     </div>
@@ -68,39 +62,31 @@
             </div>
             <div class="col-lg-9">
                 <div class="shop__product__option">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="shop__product__option__left">
-                                <p>Showing 1–12 of 126 results</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="shop__product__option__right">
-                                <p>Sort by Price:</p>
-                                <select>
-                                    <option value="">Low To High</option>
-                                    <option value="">$0 - $55</option>
-                                    <option value="">$55 - $100</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="row">
+                    <?php if (empty($produk)) : ?>
+                        <div class="col-lg-12">
+                            <div class="alert alert-danger" role="alert">
+                                Tidak Ada produk dengan kategori ini
+                            </div>
+                        </div>
+                    <?php endif ?>
                     <?php foreach ($produk as $item): ?>
                         <?php
                         // menghitung diskon
                         // cari diskon terbesar
                         $maxDiscount = 0;
+                        $variantPrice = 0;
                         foreach ($item['size'] as $variant) {
                             if ($variant['discount'] > $maxDiscount) {
                                 $maxDiscount = $variant['discount'];
+                                $variantPrice = $variant['price'];
                             } else {
                                 $maxDiscount = $maxDiscount;
                             }
                         }
-                        $diskon = $variant['price'] * $maxDiscount / 100;
-                        $diskon = $variant['price'] - $diskon;
+
+                        $diskon = $variantPrice - ($variantPrice * $maxDiscount / 100);
                         ?>
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
@@ -114,7 +100,7 @@
                                 <div class="product__item__text">
                                     <h6><?= $item['name'] ?></h6>
                                     <?php if ($maxDiscount > 0) : ?>
-                                        <h5 class="text-danger">Rp. <?= number_format($diskon, 0, ',', '.') ?> <span class="coret">Rp. <?= number_format($variant['price'], 0, ',', '.') ?></span></h5>
+                                        <h5 class="text-danger">Rp. <?= number_format($diskon, 0, ',', '.') ?> <span class="coret">Rp. <?= number_format($variantPrice, 0, ',', '.') ?></span></h5>
 
                                     <?php else : ?>
                                         <h5>

@@ -105,6 +105,128 @@ class ProdukModel extends Model
         return $allData;
     }
 
+    public function getProdukByCategory($idCategory)
+    {
+        // Ambil semua data produk berdasarkan kategori
+        $produk = $this->where('category_id', $idCategory)->orderBy('id', 'DESC')->findAll();
+
+        // Array untuk menyimpan hasil akhir
+        $allData = [];
+
+        foreach ($produk as $p) {
+            // Ambil varian untuk setiap produk
+            $varian = $this->db->table('produk_varian')
+                ->where('product_id', $p['id'])
+                ->get()
+                ->getResultArray();
+
+            // Ambil gambar untuk setiap produk
+            $gambar = $this->db->table('gambar_produk')
+                ->where('product_id', $p['id'])
+                ->get()
+                ->getResultArray();
+
+            // Siapkan array size dan image untuk tiap produk
+            $size = [];
+            $image = [];
+
+            foreach ($varian as $v) {
+                $size[] = [
+                    'variant_id' => $v['id'],
+                    'size' => $v['size'],
+                    'price' => $v['price'],
+                    'stock' => $v['stock'],
+                    'color' => $v['color'],
+                    'discount' => $v['discount'],
+                ];
+            }
+
+            foreach ($gambar as $g) {
+                $image[] = [
+                    'id' => $g['id'],
+                    'image' => $g['image'],
+                    'is_primary' => $g['is_primary']
+                ];
+            }
+
+            // Struktur data untuk tiap produk
+            $data = [
+                'produk_id' => $p['id'],
+                'name' => $p['name'],
+                'description' => $p['description'],
+                'category_id' => $p['category_id'],
+                'size' => $size,
+                'image' => $image,
+            ];
+
+            // Tambahkan data produk ke array hasil akhir
+            $allData[] = $data;
+        }
+
+        return $allData;
+    }
+
+    public function searchProduk($search)
+    {
+        // Ambil semua data produk berdasarkan pencarian
+        $produk = $this->like('name', $search)->orderBy('id', 'DESC')->findAll();
+
+        // Array untuk menyimpan hasil akhir
+        $allData = [];
+
+        foreach ($produk as $p) {
+            // Ambil varian untuk setiap produk
+            $varian = $this->db->table('produk_varian')
+                ->where('product_id', $p['id'])
+                ->get()
+                ->getResultArray();
+
+            // Ambil gambar untuk setiap produk
+            $gambar = $this->db->table('gambar_produk')
+                ->where('product_id', $p['id'])
+                ->get()
+                ->getResultArray();
+
+            // Siapkan array size dan image untuk tiap produk
+            $size = [];
+            $image = [];
+
+            foreach ($varian as $v) {
+                $size[] = [
+                    'variant_id' => $v['id'],
+                    'size' => $v['size'],
+                    'price' => $v['price'],
+                    'stock' => $v['stock'],
+                    'color' => $v['color'],
+                    'discount' => $v['discount'],
+                ];
+            }
+
+            foreach ($gambar as $g) {
+                $image[] = [
+                    'id' => $g['id'],
+                    'image' => $g['image'],
+                    'is_primary' => $g['is_primary']
+                ];
+            }
+
+            // Struktur data untuk tiap produk
+            $data = [
+                'produk_id' => $p['id'],
+                'name' => $p['name'],
+                'description' => $p['description'],
+                'category_id' => $p['category_id'],
+                'size' => $size,
+                'image' => $image,
+            ];
+
+            // Tambahkan data produk ke array hasil akhir
+            $allData[] = $data;
+        }
+
+        return $allData;
+    }
+
     // insert data produk
     public function insertProduk($data)
     {

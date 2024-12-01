@@ -78,7 +78,10 @@
                         <ul>
                             <li class="<?= $title == 'Home' ? 'active' : '' ?>"><a href="<?= base_url('/') ?>">Home</a></li>
                             <li class="<?= $title == 'Shop' ? 'active' : '' ?>"><a href="<?= base_url('shop') ?>">Shop</a></li>
-                            <li><a href="<?= base_url('about-us') ?>">About Us</a></li>
+                            <li><a href="#">Category</a>
+                                <ul class="dropdown" id="dropdownCategory">
+                                </ul>
+                            </li>
                             <li><a href="<?= base_url('contact') ?>">Contacts</a></li>
                         </ul>
                     </nav>
@@ -175,6 +178,7 @@
     <script src="<?= base_url('customer/') ?>js/main.js"></script>
 
     <?= $this->renderSection('script'); ?>
+
     <script>
         // Toggle dropdown on click
         document.getElementById('dropdownButton').addEventListener('click', function(event) {
@@ -201,6 +205,22 @@
                     document.querySelector('.header__nav__option a span').textContent = data.count;
                 });
         }
+
+        function getCategory() {
+            fetch('<?= base_url('get-category') ?>')
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log(data);
+                    let category = '';
+                    data.forEach(item => {
+                        category += `<li><a href="<?= base_url('shop') ?>?category=${item.id}">${item.name}</a></li>`;
+                    });
+                    document.getElementById('dropdownCategory').innerHTML = category;
+                });
+        }
+
+        getCategory();
 
         // jalankan get count cart
         getCountCart();
