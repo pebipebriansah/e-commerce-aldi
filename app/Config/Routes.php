@@ -40,6 +40,8 @@ $routes->group('admin', ['filter' => 'authAdmin', 'namespace' => 'App\Controller
     $routes->get('pesanan/konfirmasi/(:num)', 'PesananController::konfirmasi/$1');
     $routes->post('pesanan/kirim/(:num)', 'PesananController::kirim/$1');
 
+    $routes->get('review', 'ReviewController::index');
+
     $routes->get('customer', 'CustomerController::index');
 
     $routes->get('laporan', 'LaporanController::index');

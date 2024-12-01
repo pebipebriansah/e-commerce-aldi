@@ -58,11 +58,14 @@ class ShopController extends BaseController
     public function detail($id)
     {
         $produk = $this->produkModel->getProdukById($id);
+        $review = $this->orderModel->getReview($id);
+
 
         $data = [
             'title' => 'Detail Produk',
             'id' => $id,
-            'produk' => $produk
+            'produk' => $produk,
+            'review' => $review
         ];
 
         return view('customer/shop/detail', $data);

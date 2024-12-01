@@ -218,4 +218,20 @@ class OrderModel extends Model
         $query = $builder->get();
         return $query->getResultArray();
     }
+
+    public function getReview($id)
+    {
+        // model review
+        $review = new ReviewModel();
+        // where
+        $review->where('product_id', $id);
+        // relasi ke tabel produk
+        $review->join('produk', 'produk.id = reviews.product_id');
+        // relasi ke tabel user
+        $review->join('users', 'users.id = reviews.user_id');
+        // select field
+        $review->select('reviews.*, produk.name as product_name, users.full_name as user_name');
+        // get data
+        return $review->findAll();
+    }
 }
