@@ -28,83 +28,114 @@
                         <i class="ti ti-x fs-8"></i>
                     </div>
                 </div>
-                <!-- Sidebar navigation-->
-                <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-                    <ul id="sidebarnav">
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">Home</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="<?= base_url('admin/dashboard') ?>" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-layout-dashboard"></i>
-                                </span>
-                                <span class="hide-menu">Dashboard</span>
-                            </a>
-                        </li>
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">Kelola Produk</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="<?= base_url('admin/produk') ?>" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-article"></i>
-                                </span>
-                                <span class="hide-menu">Produk</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="<?= base_url('admin/kategori') ?>" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-hanger-2"></i>
-                                </span>
-                                <span class="hide-menu">Kategori</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="<?= base_url('admin/pesanan') ?>" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-shopping-cart"></i>
-                                </span>
-                                <span class="hide-menu">Pesanan</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="<?= base_url('admin/review') ?>" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-stars"></i>
-                                </span>
-                                <span class="hide-menu">Review</span>
-                            </a>
-                        </li>
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">Customer</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="<?= base_url('admin/customer') ?>" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-users"></i>
-                                </span>
-                                <span class="hide-menu">User</span>
-                            </a>
-                        </li>
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">Pelaporan</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="<?= base_url('admin/laporan') ?>" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-report"></i>
-                                </span>
-                                <span class="hide-menu">Laporan Transaksi</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                <?php if (session()->get('role') == 'admin') : ?>
+                    <!-- Sidebar navigation-->
+                    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                        <ul id="sidebarnav">
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Home</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/dashboard') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-layout-dashboard"></i>
+                                    </span>
+                                    <span class="hide-menu">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Kelola Produk</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/produk') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-article"></i>
+                                    </span>
+                                    <span class="hide-menu">Produk</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/kategori') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-hanger-2"></i>
+                                    </span>
+                                    <span class="hide-menu">Kategori</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/pesanan') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-shopping-cart"></i>
+                                    </span>
+                                    <span class="hide-menu">Pesanan</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/review') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-stars"></i>
+                                    </span>
+                                    <span class="hide-menu">Review</span>
+                                </a>
+                            </li>
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Customer</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/customer') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-users"></i>
+                                    </span>
+                                    <span class="hide-menu">User</span>
+                                </a>
+                            </li>
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Pelaporan</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/laporan') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-report"></i>
+                                    </span>
+                                    <span class="hide-menu">Laporan Transaksi</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                <?php elseif (session()->get('role') == 'owner') : ?>
+                    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+                        <ul id="sidebarnav">
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Home</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/dashboard') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-layout-dashboard"></i>
+                                    </span>
+                                    <span class="hide-menu">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Pelaporan</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/laporan') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-report"></i>
+                                    </span>
+                                    <span class="hide-menu">Laporan Transaksi</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                <?php endif; ?>
                 <!-- End Sidebar navigation -->
             </div>
             <!-- End Sidebar scroll-->

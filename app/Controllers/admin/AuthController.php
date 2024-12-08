@@ -69,7 +69,7 @@ class AuthController extends BaseController
 
         $user = $this->user->where('username', $username)->first();
 
-        if ($user['role'] == 'admin') {
+        if ($user['role'] == 'admin' || $user['role'] == 'owner') {
             if (password_verify($password, $user['password'])) {
                 $data = [
                     'id' => $user['id'],
