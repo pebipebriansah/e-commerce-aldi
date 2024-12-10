@@ -40,7 +40,7 @@
                             $subtotal = 0;
                             foreach ($produk as $item) : ?>
                                 <tr>
-                                    <input type="hidden" id="id" value="<?= $item['id'] ?>">
+                                    <input type="hidden" id="id" name="id_produk" value="<?= $item['id'] ?>">
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
                                             <img src="<?= base_url('produk/' . $item['image']) ?>" alt="" class="img-thumbnail" style="width: 100px; height: 100px;">
@@ -54,7 +54,7 @@
                                     <td class="quantity__item">
                                         <div class="quantity">
                                             <div class="pro-qty-2">
-                                                <input type="text" value="<?= $item['qty'] ?>">
+                                                <input type="text" name="qty" value="<?= $item['qty'] ?>" class="cart-qty-input" data-id="<?= $item['id'] ?>">
                                             </div>
                                         </div>
                                     </td>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="continue__btn update__btn">
-                            <a href="#"> Update cart</a>
+                            <a href="#" onclick="cartUpdate()"> Update cart</a>
                         </div>
                     </div>
                 </div>
@@ -144,6 +144,60 @@
         }).then(function() {
             location.href = '<?= base_url('checkout') ?>';
         });
+    }
+
+    function cartUpdate() {
+        // Ambil semua input qty
+        const qtyInputs = document.querySelectorAll('.cart-qty-input');
+        const cartData = [];
+
+        // Loop melalui semua input qty untuk mengambil id_produk dan qty
+        qtyInputs.forEach(input => {
+            const idCart = input.getAttribute('data-id');
+            const qty = input.value;
+
+            // Masukkan data ke dalam array
+            cartData.push({
+                id_cart: idCart,
+                qty: qty
+            });
+        });
+
+        // Kirim data ke server menggunakan Fetch API
+        fetch('<?= base_url("cart/update") ?>', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(cartData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // sweetalert
+                    Swal.fire({
+                        icon: 'success',
+                        title: data.message || 'Berhasil memperbarui keranjang',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(function() {
+                        location.reload();
+                    });
+                } else {
+                    //    swal
+                    Swal.fire({
+                        icon: 'error',
+                        title: data.message || 'Gagal memperbarui keranjang',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan. Coba lagi.');
+            });
     }
 </script>
 <?= $this->endSection(); ?>

@@ -56,6 +56,7 @@ $routes->get('cart', 'customer\ShopController::cart');
 $routes->post('/cart/add', 'customer\ShopController::addToCart');
 $routes->get('cart/count', 'customer\ShopController::countCart');
 $routes->post('cart/delete', 'customer\ShopController::deleteCart');
+$routes->post('cart/update', 'customer\ShopController::updateCart');
 // checkout
 $routes->get('checkout', 'customer\ShopController::checkout');
 $routes->post('checkout', 'customer\ShopController::order');

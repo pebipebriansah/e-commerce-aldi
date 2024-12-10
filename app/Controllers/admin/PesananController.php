@@ -10,10 +10,12 @@ class PesananController extends BaseController
 {
 
     protected $orderModel;
+    protected $pembayaranModel;
 
     public function __construct()
     {
         $this->orderModel = new \App\Models\OrderModel();
+        $this->pembayaranModel = new \App\Models\PembayaranModel();
     }
     public function index()
     {
@@ -42,6 +44,10 @@ class PesananController extends BaseController
     public function konfirmasi($id)
     {
         $this->orderModel->update($id, ['status' => 'paid']);
+
+        // update status pembayaran
+        $this->pembayaranModel->where('order_id', $id)->set(['payment_status' => 'completed'])->update();
+
         return redirect()->to('/admin/pesanan/' . $id)->with('success', 'Pesanan berhasil dikonfirmasi');
     }
 

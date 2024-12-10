@@ -49,6 +49,12 @@ class CartModel extends Model
         $this->insert($data);
     }
 
+    public function updateCart($data)
+    {
+        // update where id, update qty
+        $this->update($data['id'], ['quantity' => $data['qty']]);
+    }
+
     public function getProvinsi()
     {
         $curl = curl_init();

@@ -119,11 +119,22 @@ class ShopController extends BaseController
         }
     }
 
+    public function updateCart()
+    {
+        $data = $this->request->getJSON();
+
+        // loop data
+        foreach ($data as $cart) {
+            $this->cartModel->update($cart->id_cart, ['quantity' => $cart->qty]);
+        }
+
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Berhasil mengupdate keranjang']);
+    }
+
     public function cart()
     {
         $costumer_id = session()->get('id');
         $cart = $this->cartModel->getCart($costumer_id);
-
         $data = [
             'title' => 'Keranjang Belanja',
             'produk' => $cart,
