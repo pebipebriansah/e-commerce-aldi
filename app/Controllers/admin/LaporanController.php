@@ -18,7 +18,6 @@ class LaporanController extends BaseController
     {
 
         $order = $this->orderModel->getOrderWhere();
-
         $data = [
             'title' => 'Laporan',
             'data' => $order

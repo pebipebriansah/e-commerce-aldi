@@ -63,6 +63,7 @@ $routes->post('checkout', 'customer\ShopController::order');
 
 $routes->get('shop/order', 'customer\ShopController::myOrder');
 $routes->get('shop/order/(:num)', 'customer\ShopController::detailOrder/$1');
+$routes->post('shop/order/cancel', 'customer\ShopController::cancelOrder');
 $routes->post('shop/upload_bukti/(:num)', 'customer\ShopController::upload_bukti/$1');
 $routes->get('shop/order/confirm/(:num)', 'customer\ShopController::confirm/$1');
 $routes->post('shop/review', 'customer\ShopController::review');

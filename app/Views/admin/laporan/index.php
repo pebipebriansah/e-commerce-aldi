@@ -58,7 +58,13 @@
                                     <h6 class="fw-semibold mb-0">Nama Customer</h6>
                                 </th>
                                 <th class="border-bottom-0">
-                                    <h6 class="fw-semibold mb-0">Total Pesanan</h6>
+                                    <h6 class="fw-semibold mb-0">Produk</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0">Qty</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0">Harga</h6>
                                 </th>
                                 <th class="border-bottom-0">
                                     <h6 class="fw-semibold mb-0">Status</h6>
@@ -75,8 +81,16 @@
                                         <h6 class="fw-semibold mb-0 "><?= $item['user_name'] ?></h6>
                                     </td>
                                     <td class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0 "><?= $item['product_name'] . ' | ' . $item['size'] . ' | ' . $item['color'] ?></h6>
+                                    </td>
+                                    <td class="border-bottom-0">
                                         <div class="d-flex align-items-center gap-2">
-                                            <span class="badge bg-success rounded-3 fw-semibold">Rp. <?= number_format($item['total'], 0, ',', '.') ?></span>
+                                            <span class="badge bg-success rounded-3 fw-semibold"><?= $item['quantity'] ?></span>
+                                        </div>
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="badge bg-success rounded-3 fw-semibold">Rp. <?= number_format($item['price'], 0, ',', '.') ?></span>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">

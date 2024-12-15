@@ -8,6 +8,7 @@ use App\Models\ProdukModel;
 use App\Models\ProdukVarianModel;
 use App\Models\CartModel;
 use App\Models\OrderModel;
+use Pusher\Pusher;
 
 class ShopController extends BaseController
 {
@@ -225,6 +226,8 @@ class ShopController extends BaseController
 
         $idOrder = $this->orderModel->insertOrder($data);
 
+        $this->sendNotifikasi($user_id);
+
         return redirect()->to(base_url('shop/order/' . $idOrder))->with('success', 'Pesanan berhasil dibuat');
     }
 
@@ -296,5 +299,42 @@ class ShopController extends BaseController
         } else {
             return redirect()->to(base_url('shop/order/' . $data['order_id']))->with('error', 'Gagal menambahkan review');
         }
+    }
+
+    public function cancelOrder()
+    {
+        $id = $this->request->getPost('id');
+        $update = $this->orderModel->update($id, ['status' => 'cancelled']);
+
+        if ($update) {
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Pesanan berhasil dibatalkan']);
+        } else {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal membatalkan pesanan']);
+        }
+    }
+
+    private function sendNotifikasi($idOrder)
+    {
+        // cari ke tabel user
+        $user = new \App\Models\UserModel();
+        $user->where('id', $idOrder);
+        $user = $user->first();
+        $fullName = $user['full_name'];
+        // autoload.php
+        require ROOTPATH . 'vendor/autoload.php';
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+        $pusher = new Pusher(
+            '3d6dc9011db726edee70',
+            '3e9a019c4b7ac9c59eb3',
+            '1911103',
+            $options
+        );
+        $message = 'Pesanan Baru! dari, ' . $fullName;
+
+        $data['message'] = $message;
+        $pusher->trigger('my-channel', 'my-event', $data);
     }
 }

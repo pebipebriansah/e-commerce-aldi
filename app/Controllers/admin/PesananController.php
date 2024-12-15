@@ -20,7 +20,6 @@ class PesananController extends BaseController
     public function index()
     {
         $order = $this->orderModel->getOrder();
-
         $data = [
             'title' => 'Pesanan',
             'data' => $order

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use Pusher\Pusher;
 
 class OrderModel extends Model
 {
@@ -89,7 +90,7 @@ class OrderModel extends Model
     public function getOrderByUserId($userId)
     {
         // Ambil data order berdasarkan user_id
-        $orders = $this->where('user_id', $userId)->findAll();
+        $orders = $this->where('user_id', $userId)->orderBy('id', 'DESC')->findAll();
 
         if ($orders) {
             foreach ($orders as &$order) {
@@ -123,15 +124,21 @@ class OrderModel extends Model
         // select field
         $this->select('order.*, users.full_name as user_name');
         // where
-        return $this->findAll();
+        return $this->orderBy('order.id', 'DESC')->findAll();
     }
 
     public function getOrderWhere()
     {
         // relasi ke user
         $this->join('users', 'users.id = order.user_id');
+        // join ke order_item
+        $this->join('order_item', 'order_item.order_id = order.id');
+        // join ke produk_varian
+        $this->join('produk_varian', 'produk_varian.id = order_item.product_variant_id');
+        // join ke produk
+        $this->join('produk', 'produk.id = produk_varian.product_id');
         // select field
-        $this->select('order.*, users.full_name as user_name');
+        $this->select('order.*, users.full_name as user_name, produk.name as product_name, order_item.price as price, order_item.quantity as quantity, produk_varian.size as size, produk_varian.color as color');
         // where
         $this->where('order.status', 'completed');
         return $this->findAll();

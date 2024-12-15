@@ -7,12 +7,50 @@
     <title><?= $title ?></title>
     <link rel="shortcut icon" type="image/png" href="<?= base_url('/admin/assets') ?>/images/logos/favicon.png" />
     <link rel="stylesheet" href="<?= base_url('/admin/assets') ?>/css/styles.min.css" />
+    <script src="<?= base_url('/admin/assets') ?>/libs/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
     <?= $this->renderSection('header'); ?>
 
 </head>
 
 <body>
+    <script>
+        // request permission
+
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission();
+        }
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('3d6dc9011db726edee70', {
+            cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+            // sound notification
+            var audio = new Audio('<?= base_url('/notification.mp3') ?>');
+            audio.play();
+            // masukkan data ke notification
+            // <span class="badge rounded-circle bg-primary d-flex align-items-center justify-content-center rounded-pill fs-2" id="notif-pesanan">9</span>
+            $('#notif-pesanan').html('<span class="badge rounded-circle bg-primary d-flex align-items-center justify-content-center rounded-pill fs-2">' + 1 + '</span>');
+            // toastr
+            toastr.success(data.message, 'Pesanan Baru!', {
+                timeOut: 5000
+            });
+            var notification = new Notification('Pesanan Baru!', {
+                body: data.message,
+                icon: '<?= base_url('customer/') ?>img/logo.png',
+                timestamp: Date.now() //
+            });
+
+        });
+    </script>
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
@@ -70,6 +108,9 @@
                                         <i class="ti ti-shopping-cart"></i>
                                     </span>
                                     <span class="hide-menu">Pesanan</span>
+                                    <div class="hide-menu" id="notif-pesanan">
+
+                                    </div>
                                 </a>
                             </li>
                             <li class="sidebar-item">
@@ -90,18 +131,6 @@
                                         <i class="ti ti-users"></i>
                                     </span>
                                     <span class="hide-menu">User</span>
-                                </a>
-                            </li>
-                            <li class="nav-small-cap">
-                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                <span class="hide-menu">Pelaporan</span>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" href="<?= base_url('admin/laporan') ?>" aria-expanded="false">
-                                    <span>
-                                        <i class="ti ti-report"></i>
-                                    </span>
-                                    <span class="hide-menu">Laporan Transaksi</span>
                                 </a>
                             </li>
                         </ul>
@@ -183,7 +212,7 @@
             </div>
         </div>
     </div>
-    <script src="<?= base_url('/admin/assets') ?>/libs/jquery/dist/jquery.min.js"></script>
+
     <script src="<?= base_url('/admin/assets') ?>/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="<?= base_url('/admin/assets') ?>/js/sidebarmenu.js"></script>
     <script src="<?= base_url('/admin/assets') ?>/js/app.min.js"></script>

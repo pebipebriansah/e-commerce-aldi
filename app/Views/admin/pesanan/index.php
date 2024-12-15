@@ -41,6 +41,9 @@
                                     <h6 class="fw-semibold mb-0">Tanggal</h6>
                                 </th>
                                 <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0">No. Order</h6>
+                                </th>
+                                <th class="border-bottom-0">
                                     <h6 class="fw-semibold mb-0">Nama Customer</h6>
                                 </th>
                                 <th class="border-bottom-0">
@@ -59,6 +62,9 @@
                                 <tr>
                                     <td class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 "><?= $item['order_date'] ?></h6>
+                                    </td>
+                                    <td class="border-bottom-0">
+                                        <h6 class="fw-semibold mb-0 "><?= $item['no_order'] ?></h6>
                                     </td>
                                     <td class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 "><?= $item['user_name'] ?></h6>
