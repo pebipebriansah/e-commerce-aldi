@@ -133,6 +133,18 @@
                                     <span class="hide-menu">User</span>
                                 </a>
                             </li>
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">Pelaporan</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/laporan') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-report"></i>
+                                    </span>
+                                    <span class="hide-menu">Laporan Transaksi</span>
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                 <?php elseif (session()->get('role') == 'owner') : ?>
