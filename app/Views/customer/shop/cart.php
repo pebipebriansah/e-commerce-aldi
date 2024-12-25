@@ -54,7 +54,7 @@
                                     <td class="quantity__item">
                                         <div class="quantity">
                                             <div class="pro-qty-2">
-                                                <input type="text" name="qty" value="<?= $item['qty'] ?>" class="cart-qty-input" data-id="<?= $item['id'] ?>">
+                                                <input type="text" name="qty" value="<?= $item['qty'] ?>" class="cart-qty-input" data-id="<?= $item['id'] ?>" data-price="<?= $item['subtotal'] ?>">
                                             </div>
                                         </div>
                                     </td>
@@ -155,11 +155,13 @@
         qtyInputs.forEach(input => {
             const idCart = input.getAttribute('data-id');
             const qty = input.value;
+            const subtotal = input.getAttribute('data-price');
 
             // Masukkan data ke dalam array
             cartData.push({
                 id_cart: idCart,
-                qty: qty
+                qty: qty,
+                price: subtotal
             });
         });
 

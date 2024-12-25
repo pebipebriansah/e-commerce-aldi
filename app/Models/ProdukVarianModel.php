@@ -48,4 +48,11 @@ class ProdukVarianModel extends Model
     {
         return $this->find($id);
     }
+
+    public function updateStok($id, $qty)
+    {
+        $produkVarian = $this->find($id);
+        $stok = $produkVarian['stock'] - $qty;
+        $this->update($id, ['stock' => $stok]);
+    }
 }

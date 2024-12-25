@@ -17,8 +17,7 @@
                         <div class="hero__text">
                             <h6>New Collection</h6>
                             <h2>Hijab Kekinian</h2>
-                            <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                commitment to exceptional quality.</p>
+                            <p>Tampil menawan dengan hijab yang nyaman! Pilihan tepat untuk Anda yang aktif dan stylish setiap hari.</p>
                             <a href="<?= base_url('shop') ?>" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                             <div class="hero__social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
@@ -38,8 +37,7 @@
                         <div class="hero__text">
                             <h6>Fashionable</h6>
                             <h2>Nyaman digunakan</h2>
-                            <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                commitment to exceptional quality.</p>
+                            <p>Temukan hijab sylish yang membuat Anda tampil menawan setiap hari. Gaya modern untuk setiap kesempatan!</p>
                             <a href="<?= base_url('shop') ?>" class="primary-btn">Shop now <span class="arrow_right"></span></a>
                             <div class="hero__social">
                                 <a href="#"><i class="fa fa-facebook"></i></a>

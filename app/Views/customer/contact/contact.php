@@ -80,8 +80,8 @@
                                 info@ayhijabstore.com
                             </li>
                             <li>
-                                <strong>Telepon:</strong><br>
-                                +62 812-3456-7890
+                                <strong>WA/Telepon:</strong><br>
+                                <a href="https://api.whatsapp.com/send/?phone=6281234567890&text=Hallo%20kak%2C%20saya%20ingin%20bertanya%20sesuatu%20dong%20%F0%9F%98%81&type=phone_number&app_absent=0">+62 812-3456-7890</a>
                             </li>
                         </ul>
                         <h4>Lokasi Kami</h4>

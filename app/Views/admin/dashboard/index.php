@@ -47,7 +47,12 @@
                         <h5 class="card-title mb-9 fw-semibold">Pendapatan Bulan Ini</h5>
                         <div class="row align-items-center">
                             <div class="col-8">
-                                <h4 class="fw-semibold mb-3">Rp. <?= number_format($grafik[0]['total'] ?? 0, 0, ',', '.') ?></h4>
+                                <?php
+                                $total = 0;
+                                foreach ($grafik as $item) {
+                                    $total += $item['total'];
+                                } ?>
+                                <h4 class="fw-semibold mb-3">Rp. <?= number_format($total ?? 0, 0, ',', '.') ?></h4>
                             </div>
                         </div>
                     </div>

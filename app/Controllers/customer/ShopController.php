@@ -126,6 +126,7 @@ class ShopController extends BaseController
 
         // loop data
         foreach ($data as $cart) {
+
             $this->cartModel->update($cart->id_cart, ['quantity' => $cart->qty]);
         }
 

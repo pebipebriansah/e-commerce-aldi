@@ -160,8 +160,8 @@
                                 <?php
                                 $subtotal = 0;
                                 foreach ($produk as $item): ?>
-                                    <li> <?= $item['name'] . ' - ' . $item['size'] . '/' . $item['color'] ?> <span>Rp. <?= $item['price'] ?></span></li>
-                                    <?php $subtotal += $item['price'] ?>
+                                    <li> <?= $item['name'] . ' | ' . $item['size'] . ' | ' . $item['color'] . ' | x' . $item['qty'] ?> <span>Rp. <?= $totalPerItem = $item['price'] * $item['qty'] ?></span></li>
+                                    <?php $subtotal += $totalPerItem ?>
                                 <?php endforeach ?>
                             </ul>
                             <ul class="checkout__total__all">
@@ -173,7 +173,7 @@
                                 ut labore et dolore magna aliqua.</p> -->
                             <div class="checkout__input__checkbox">
                                 <label for="payment">
-                                    Direct Bank Transfer
+                                    Bank Transfer
                                     <input type="checkbox" id="payment" name="payment" value="bank_transfer">
                                     <span class="checkmark"></span>
                                 </label>

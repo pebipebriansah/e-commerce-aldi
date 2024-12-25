@@ -90,7 +90,7 @@
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="d-flex align-items-center gap-2">
-                                            <span class="badge bg-success rounded-3 fw-semibold">Rp. <?= number_format($item['price'], 0, ',', '.') ?></span>
+                                            <span class="badge bg-success rounded-3 fw-semibold">Rp. <?= number_format($item['price'] * $item['quantity'], 0, ',', '.') ?></span>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
