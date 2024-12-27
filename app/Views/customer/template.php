@@ -180,6 +180,7 @@
     <?= $this->renderSection('script'); ?>
 
     <script>
+        getCategory();
         // Toggle dropdown on click
         document.getElementById('dropdownButton').addEventListener('click', function(event) {
             event.stopPropagation(); // Mencegah event klik untuk bubbling ke elemen di luar
@@ -206,6 +207,7 @@
                 });
         }
 
+        // Get category
         function getCategory() {
             fetch('<?= base_url('get-category') ?>')
                 .then(response => response.json())
@@ -217,10 +219,10 @@
                         category += `<li><a href="<?= base_url('shop') ?>?category=${item.id}">${item.name}</a></li>`;
                     });
                     document.getElementById('dropdownCategory').innerHTML = category;
+                }).catch(error => {
+                    console.error('Error:', error);
                 });
         }
-
-        getCategory();
 
         // jalankan get count cart
         getCountCart();
