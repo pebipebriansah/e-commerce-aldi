@@ -1878,7 +1878,10 @@ ol {
 }
 
 .product__details__cart__option .quantity .pro-qty .qtybtn.inc {
-  top: 16px;
+  top: 2px;
+}
+.product__details__cart__option .quantity .pro-qty .qtybtn.dec {
+  top: 18px;
 }
 
 .product__details__btns__option {

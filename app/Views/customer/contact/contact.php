@@ -77,11 +77,11 @@
                             </li>
                             <li>
                                 <strong>Email:</strong><br>
-                                info@ayhijabstore.com
+                                storeayhijab@gmail.com
                             </li>
                             <li>
                                 <strong>WA/Telepon:</strong><br>
-                                <a href="https://api.whatsapp.com/send/?phone=6281234567890&text=Hallo%20kak%2C%20saya%20ingin%20bertanya%20sesuatu%20dong%20%F0%9F%98%81&type=phone_number&app_absent=0">+62 812-3456-7890</a>
+                                <a href="https://api.whatsapp.com/send/?phone=6287880486408&text=Hallo%20kak%2C%20saya%20ingin%20bertanya%20sesuatu%20dong%20%F0%9F%98%81&type=phone_number&app_absent=0">+62 878-8048-6408</a>
                             </li>
                         </ul>
                         <h4>Lokasi Kami</h4>
@@ -109,7 +109,7 @@
                         "Pesan:%0A" + message;
 
                     // Membuka aplikasi email
-                    window.location.href = "mailto:info@ayhijabstore.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+                    window.location.href = "mailto:storeayhijab@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
                 }
             </script>
         </div>
