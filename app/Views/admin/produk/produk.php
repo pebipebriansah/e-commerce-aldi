@@ -79,7 +79,7 @@
                                                 // mengubah format angka menjadi rupiah
                                                 $diskonFormated = number_format($diskon, 0, ',', '.');
                                                 ?>
-                                                <option value="<?= $variant['price'] ?>"><?= $variant['size'], ' - ', 'Rp. ', $diskonFormated, ' - ', $variant['color'], ' - ', 'Disc ', $variant['discount'], '%' ?></option>
+                                                <option value="<?= $variant['price'] ?>"><?= $variant['size'], ' - ', 'Rp. ', $diskonFormated, ' - ', $variant['color'], ' - ', 'Disc ', $variant['discount'], '%', ' - ', 'Stok:', $variant['stock'] ?></option>
                                             <?php endforeach ?>
                                         </select>
                                     </td>
