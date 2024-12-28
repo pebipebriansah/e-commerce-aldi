@@ -111,8 +111,8 @@ class ShopController extends BaseController
         } else {
             // cek stok
             $stok = $this->produkVarianModel->where('id', $variant_id)->first();
-            if ($stok['stock'] < $qty) {
-                return $this->response->setJSON(['status' => 'error', 'message' => 'Stok Habis']);
+            if ($stok['stock'] < $qty || $stok['stock'] == 0) {
+                return $this->response->setJSON(['status' => 'error', 'message' => 'Stok Habis atau tidak mencukupi']);
             }
             // Jika belum ada, buat entri baru di keranjang
             $simpan = $this->cartModel->insert($dataAdd);
