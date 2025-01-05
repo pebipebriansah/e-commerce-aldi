@@ -13,6 +13,7 @@ class PesananController extends BaseController
     protected $pembayaranModel;
     protected $orderItem;
     protected $produkVarianModel;
+    protected $produkModel;
 
     public function __construct()
     {
@@ -20,16 +21,69 @@ class PesananController extends BaseController
         $this->pembayaranModel = new \App\Models\PembayaranModel();
         $this->orderItem = new \App\Models\OrderItemModel();
         $this->produkVarianModel = new \App\Models\ProdukVarianModel();
+        $this->produkModel = new \App\Models\ProdukModel();
     }
     public function index()
     {
-        $order = $this->orderModel->getOrder();
+        // get keyword
+        $keyword = $this->request->getVar('status') ?? 'pending';
+        if ($keyword) {
+            $order = $this->orderModel->getOrder($keyword);
+        } else {
+            $order = $this->orderModel->getOrder('pending');
+        }
         $data = [
             'title' => 'Pesanan',
-            'data' => $order
+            'data' => $order,
+            'keyword' => $keyword
         ];
 
         return view('admin/pesanan/index', $data);
+    }
+
+    public function add()
+    {
+        $data = [
+            'title' => 'Tambah Pesanan'
+        ];
+
+        return view('admin/pesanan/tambah', $data);
+    }
+
+    public function tambah()
+    {
+        $tanggal = $this->request->getPost('tanggal');
+        $name = $this->request->getPost('name');
+        $alamat = $this->request->getPost('alamat');
+        $no_hp = $this->request->getPost('no_hp');
+        $product_variant_id = $this->request->getPost('variasi');
+        $quantity = $this->request->getPost('qty');
+        $price = $this->request->getPost('harga');
+        $total_harga = $this->request->getPost('total_harga');
+
+        $data = [
+            'tanggal' => $tanggal,
+            'name' => $name,
+            'alamat' => $alamat,
+            'no_hp' => $no_hp,
+            'product_variant_id' => array_map('json_decode', $product_variant_id),
+            'quantity' => $quantity,
+            'price' => $price,
+            'total_harga' => $total_harga,
+            'status' => 'completed',
+        ];
+
+        //    insert data
+        $result = $this->orderModel->insertOrderManual($data);
+
+        if ($result == true) {
+            // Berhasil
+            return redirect()->to('/admin/pesanan')->with('success', 'Pesanan berhasil ditambahkan');
+        } else {
+            // Gagal
+            // log_message('error', $result['message']);
+            return redirect()->to('admin/pesanan')->withInput()->with('error', 'Gagal menambahkan pesanan');
+        }
     }
 
     public function detail($id)
@@ -64,5 +118,18 @@ class PesananController extends BaseController
         $no_resi = $this->request->getPost('resi');
         $this->orderModel->update($id, ['status' => 'shipped', 'resi' => $no_resi]);
         return redirect()->to('/admin/pesanan/' . $id)->with('success', 'Pesanan berhasil dikirim');
+    }
+
+    // AJAX
+    public function getProduk()
+    {
+        $produk = $this->produkModel->findAll();
+        return $this->response->setJSON($produk);
+    }
+
+    public function getVariasiProduk($id)
+    {
+        $variasi = $this->produkVarianModel->where('product_id', $id)->findAll();
+        return $this->response->setJSON($variasi);
     }
 }

@@ -36,6 +36,10 @@ $routes->group('admin', ['filter' => 'authAdmin', 'namespace' => 'App\Controller
     $routes->get('produk/edit/(:num)', 'ProdukController::edit/$1');
 
     $routes->get('pesanan', 'PesananController::index');
+    $routes->get('pesanan/getProduk', 'PesananController::getProduk');
+    $routes->get('pesanan/getVariasiProduk/(:num)', 'PesananController::getVariasiProduk/$1');
+    $routes->get('pesanan/add', 'PesananController::add');
+    $routes->post('pesanan/add', 'PesananController::tambah');
     $routes->get('pesanan/(:num)', 'PesananController::detail/$1');
     $routes->get('pesanan/konfirmasi/(:num)', 'PesananController::konfirmasi/$1');
     $routes->post('pesanan/kirim/(:num)', 'PesananController::kirim/$1');
@@ -64,6 +68,7 @@ $routes->post('checkout', 'customer\ShopController::order');
 $routes->get('shop/order', 'customer\ShopController::myOrder');
 $routes->get('shop/order/(:num)', 'customer\ShopController::detailOrder/$1');
 $routes->post('shop/order/cancel', 'customer\ShopController::cancelOrder');
+$routes->post('shop/order/auto_cancel', 'customer\ShopController::autoCancel');
 $routes->post('shop/upload_bukti/(:num)', 'customer\ShopController::upload_bukti/$1');
 $routes->get('shop/order/confirm/(:num)', 'customer\ShopController::confirm/$1');
 $routes->post('shop/review', 'customer\ShopController::review');
@@ -76,3 +81,7 @@ $routes->post('/profile', 'customer\HomeController::update_profile');
 // ongkir api
 $routes->post('kabupaten', 'customer\OngkirController::index');
 $routes->post('ongkir', 'customer\OngkirController::ongkir');
+
+// routes alamat (register)
+
+$routes->get('alamat', 'customer\OngkirController::alamat');

@@ -7,6 +7,7 @@
     <title><?= $title ?></title>
     <link rel="shortcut icon" type="image/png" href="<?= base_url('admin/') ?>assets/images/logos/favicon.png" />
     <link rel="stylesheet" href="<?= base_url('admin/') ?>assets/css/styles.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -39,19 +40,27 @@
                                 <form method="POST" action="<?= base_url('signup') ?>">
                                     <div class="mb-3">
                                         <label for="exampleInputtext1" class="form-label">Nama Lengkap</label>
-                                        <input type="text" class="form-control" name="full_name" id="exampleInputtext1" aria-describedby="textHelp">
+                                        <input type="text" class="form-control" name="full_name" id="exampleInputtext1" aria-describedby="textHelp" placeholder="Masukan Nama Lengkap">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Alamat Email</label>
-                                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukan Alamat Email">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">No. HP</label>
-                                        <input type="text" class="form-control" name="phone" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <input type="text" class="form-control" name="phone" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Masukan Nomo HP/WA">
                                     </div>
                                     <div class="mb-4">
                                         <label for="exampleInputPassword1" class="form-label">Password</label>
-                                        <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+                                        <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Masukan Password">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Desa, Kecamatan, Kota, Provinsi, Kode POS</label>
+                                        <select id="mySelect2" class="form-select" name="alamat"></select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputEmail1" class="form-label">Detail Lainnya</label>
+                                        <input type="text" class="form-control" name="detail" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="cth: Jl, Patokan, RT/RW">
                                     </div>
                                     <button type="submit" class="btn btn-dark w-100 py-8 fs-4 mb-4 rounded-2">Sign Up</button>
                                     <div class="d-flex align-items-center justify-content-center">
@@ -66,8 +75,29 @@
             </div>
         </div>
     </div>
+
     <script src="<?= base_url('admin/') ?>assets/libs/jquery/dist/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="<?= base_url('admin/') ?>assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $('#mySelect2').select2({
+            ajax: {
+                delay: 1000,
+                dataType: 'json',
+                url: function(params) {
+                    return '/alamat?' + params.term;
+                },
+                processResults: function(data) {
+                    console.log(data);
+                    return {
+                        results: data.results
+                    };
+                }
+            },
+            placeholder: 'Masukan Desa...'
+        });
+    </script>
 </body>
 
 </html>

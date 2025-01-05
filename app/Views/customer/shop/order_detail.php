@@ -156,19 +156,44 @@
                         <?php if (!$data['pembayaran']) : ?>
                             <!-- keterangan nomor rekening -->
                             <div class="alert alert-info" role="alert">
-                                Silahkan transfer ke nomor rekening 1234567890 a/n Toko Online
+                                Silahkan transfer ke nomor rekening 1234567890 a/n Toko Online, setelah melakukan pembayaran segera upload bukti pembayaran, jika dalam 1x24 jam tidak melakukan pembayaran maka pesanan akan dibatalkan.
                             </div>
-                            <!-- input bukti pengiriman -->
-                            <form action="<?= base_url('shop/upload_bukti/' . $order['id']) ?>" method="post" enctype="multipart/form-data">
-                                <div class="form-group">
-                                    <label for="bukti">Upload Bukti Pengiriman</label>
-                                    <input type="file" class="form-control-file" id="bukti" name="bukti" onchange="previewImage(event)">
+                            <!-- hitung mundur -->
+                            <div class="card">
+                                <div class="card-body mb-4">
+                                    <div class="row text-center">
+                                        <div class="col-3">
+                                            <h3 id="days" class="display-4">00</h3>
+                                            <p>Hari</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <h3 id="hours" class="display-4">00</h3>
+                                            <p>Jam</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <h3 id="minutes" class="display-4">00</h3>
+                                            <p>Menit</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <h3 id="seconds" class="display-4">00</h3>
+                                            <p>Detik</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <img id="preview" src="#" alt="Pratinjau Gambar" style="display: none; max-width: 200px; max-height: 200px; margin-top: 10px;">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Kirim</button>
-                            </form>
+                            </div>
+                            <?php if ($data['order']['status'] == 'pending') : ?>
+                                <!-- input bukti pengiriman -->
+                                <form action="<?= base_url('shop/upload_bukti/' . $order['id']) ?>" method="post" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="bukti">Upload Bukti Pengiriman</label>
+                                        <input type="file" class="form-control-file" id="bukti" name="bukti" onchange="previewImage(event)">
+                                    </div>
+                                    <div class="form-group">
+                                        <img id="preview" src="#" alt="Pratinjau Gambar" style="display: none; max-width: 200px; max-height: 200px; margin-top: 10px;">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Kirim</button>
+                                </form>
+                            <?php endif ?>
                         <?php else: ?>
                             <!-- show image -->
                             <div class="card">
@@ -196,6 +221,70 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
+<script>
+    // Deadline diambil dari backend (order_date + 24 jam)
+    const deadline = new Date("<?= $data['deadline'] ?>").getTime();
+    const transactionId = <?= $data['order']['id'] ?>
+
+    const daysElement = document.getElementById('days');
+    const hoursElement = document.getElementById('hours');
+    const minutesElement = document.getElementById('minutes');
+    const secondsElement = document.getElementById('seconds');
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = deadline - now;
+
+        if (distance < 0) {
+            daysElement.innerText = "00";
+            hoursElement.innerText = "00";
+            minutesElement.innerText = "00";
+            secondsElement.innerText = "00";
+            clearInterval(countdownInterval); // Hentikan interval
+
+            // Kirim data ke backend
+            cancelTransaction();
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        daysElement.innerText = days.toString().padStart(2, '0');
+        hoursElement.innerText = hours.toString().padStart(2, '0');
+        minutesElement.innerText = minutes.toString().padStart(2, '0');
+        secondsElement.innerText = seconds.toString().padStart(2, '0');
+    }
+
+    async function cancelTransaction() {
+        try {
+            const response = await fetch('/transaction/cancel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    transaction_id: transactionId
+                }),
+            });
+
+            const result = await response.json();
+            if (result.status === 'success') {
+                alert('Transaction has been canceled due to timeout.');
+            } else {
+                alert('Failed to cancel the transaction.');
+            }
+        } catch (error) {
+            console.error('Error canceling transaction:', error);
+            alert('An error occurred while canceling the transaction.');
+        }
+    }
+
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+</script>
 <script>
     function previewImage(event) {
         const input = event.target;

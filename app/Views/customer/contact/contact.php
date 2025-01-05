@@ -81,7 +81,7 @@
                             </li>
                             <li>
                                 <strong>WA/Telepon:</strong><br>
-                                <a href="https://api.whatsapp.com/send/?phone=6287880486408&text=Hallo%20kak%2C%20saya%20ingin%20bertanya%20sesuatu%20dong%20%F0%9F%98%81&type=phone_number&app_absent=0">+62 878-8048-6408</a>
+                                <a href="https://api.whatsapp.com/send/?phone=6287880486408&text=Hallo%20kak%2C%20saya%20ingin%20bertanya%20sesuatu%20dong%20%F0%9F%98%81&type=phone_number&app_absent=0"><img src="<?= base_url('customer/img/whatsapp-button.png') ?>" alt="" style="width: 40%;"></a>
                             </li>
                         </ul>
                         <h4>Lokasi Kami</h4>
@@ -108,8 +108,8 @@
                         "Email: " + email + "%0A%0A" +
                         "Pesan:%0A" + message;
 
-                    // Membuka aplikasi email
-                    window.location.href = "mailto:storeayhijab@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+                    // Membuka aplikasi Gmail secara spesifik menggunakan mailto
+                    window.location.href = "https://mail.google.com/mail/?view=cm&fs=1&to=storeayhijab@gmail.com&su=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
                 }
             </script>
         </div>

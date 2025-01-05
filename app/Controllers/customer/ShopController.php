@@ -17,6 +17,7 @@ class ShopController extends BaseController
     protected $cartModel;
     protected $orderModel;
     protected $categoryModel;
+    protected $userModel;
 
     public function __construct()
     {
@@ -25,6 +26,7 @@ class ShopController extends BaseController
         $this->cartModel = new CartModel();
         $this->orderModel = new OrderModel();
         $this->categoryModel = new \App\Models\KategoriModel();
+        $this->userModel = new \App\Models\UserModel();
     }
     public function index()
     {
@@ -173,7 +175,7 @@ class ShopController extends BaseController
     {
         $costumer_id = session()->get('id');
         $cart = $this->cartModel->getCart($costumer_id);
-        $provinsi = $this->cartModel->getProvinsi();
+        $alamat = $this->userModel->where('id', $costumer_id)->first();
 
         $ekspedisi = [
             [
@@ -193,7 +195,7 @@ class ShopController extends BaseController
         $data = [
             'title' => 'Checkout',
             'produk' => $cart,
-            'provinsi' => $provinsi,
+            'alamat' => $alamat['address_detail'] . ' ' . $alamat['address'],
             'ekspedisi' => $ekspedisi
         ];
         return view('customer/shop/checkout', $data);
@@ -205,17 +207,13 @@ class ShopController extends BaseController
         date_default_timezone_set('Asia/Jakarta');
         // get user id
         $user_id = session()->get('id');
-        $provinsi = $this->request->getPost('prov');
-        $kabupaten = $this->request->getPost('kab');
-        $kecamatan = $this->request->getPost('kec');
-        $kode_pos = $this->request->getPost('kode_pos');
-        $alamat_lengkap = $this->request->getPost('alamat_lengkap');
+        $alamat_lengkap = $this->userModel->where('id', $user_id)->first();
         $ekspedisi = $this->request->getPost('ekspedisi');
         $estimasi = $this->request->getPost('estimasi');
         $ongkir = $this->request->getPost('ongkir');
         $total = $this->request->getPost('total');
 
-        $alamat = $alamat_lengkap . ', ' . $kecamatan . ', ' . $kode_pos . ', ' . $kabupaten . ', ' . $provinsi;
+        $alamat = $alamat_lengkap['address_detail'] . ' ' . $alamat_lengkap['address'];
         // generrate no_order INV-202108-0001
 
         $data = [
@@ -251,7 +249,6 @@ class ShopController extends BaseController
     public function detailOrder($id)
     {
         $order = $this->orderModel->getOrderById($id);
-
         $data = [
             'title' => 'Detail Order',
             'data' => $order
@@ -342,5 +339,18 @@ class ShopController extends BaseController
 
         $data['message'] = $message;
         $pusher->trigger('my-channel', 'my-event', $data);
+    }
+
+    public function autoCancel()
+    {
+        $orderId = $this->request->getPOST('transaction_id');
+        // cek status order
+        $order = $this->orderModel->where('id', $orderId)->first();
+        if ($order['status'] != 'pending') {
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Anda telah melakukan pembayaran']);
+        } else {
+            $this->orderModel->update($orderId, ['status' => 'cancelled']);
+        }
+        return $this->response->setJSON(['status' => 'success', 'message' => 'Pending orders older than 24 hours have been cancelled']);
     }
 }

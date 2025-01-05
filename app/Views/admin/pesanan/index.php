@@ -32,7 +32,15 @@
             <div class="card-body p-4">
                 <div class="col-12 d-flex justify-content-between align-items-center mb-4">
                     <h5 class="card-title fw-semibold">Pesanan</h5>
+                    <a href="<?= base_url('admin/pesanan/add') ?>" class="btn btn-primary">+ Tambah Pesanan</a>
                 </div>
+                <nav class="nav nav-pills flex-column flex-sm-row mb-4">
+                    <a class="flex-sm-fill text-sm-center nav-link <?= $keyword == 'pending' ? 'active' : '' ?>" aria-current="page" href="?status=pending">Belum Bayar </a>
+                    <a class="flex-sm-fill text-sm-center nav-link <?= $keyword == 'paid' ? 'active' : '' ?>" href="?status=paid">Dikemas</a>
+                    <a class="flex-sm-fill text-sm-center nav-link <?= $keyword == 'shipped' ? 'active' : '' ?>" href="?status=shipped">Dikirim</a>
+                    <a class="flex-sm-fill text-sm-center nav-link <?= $keyword == 'completed' ? 'active' : '' ?>" href="?status=completed">Selesai</a>
+                    <a class="flex-sm-fill text-sm-center nav-link <?= $keyword == 'cancelled' ? 'active' : '' ?>" href="?status=cancelled">Dibatalkan</a>
+                </nav>
                 <div class="table-responsive">
                     <table class="table table-striped text-nowrap mb-0 align-middle" id="myTable">
                         <thead class="text-dark fs-4">
@@ -58,7 +66,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($data as $item) : ?>
+                            <?php
+                            foreach ($data as $item) : ?>
+                                <!-- jika status belum bayar -->
                                 <tr>
                                     <td class="border-bottom-0">
                                         <h6 class="fw-semibold mb-0 "><?= $item['order_date'] ?></h6>
@@ -89,6 +99,7 @@
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
     </div>
@@ -99,6 +110,7 @@
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
 <script>
     let table = new DataTable('#myTable');
+    let table2 = new DataTable('#dikemas');
 
     deleteKategori = (id) => {
         console.log(id);

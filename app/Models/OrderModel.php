@@ -87,6 +87,106 @@ class OrderModel extends Model
         }
     }
 
+    public function insertOrderManual($data)
+    {
+        $this->db->transStart();
+
+        try {
+            $userModel = new UserModel();
+            // name to lower dan menghilangkan spasi
+            // Insert ke tabel user
+            $dataUser = [
+                'email' =>  strtolower(str_replace(' ', '', $data['name'])) . '@gmail.com',
+                'password' => password_hash('default', PASSWORD_DEFAULT),
+                'username' => strtolower(str_replace(' ', '', $data['name'])),
+                'full_name' => $data['name'],
+                'phone' => $data['no_hp'],
+                'address_detail' => $data['alamat'],
+                'address' => $data['alamat'],
+                'role' => 'customer',
+            ];
+            $userModel->insert($dataUser);
+
+            if ($this->db->affectedRows() <= 0) {
+                throw new \Exception('Gagal menyimpan data pengguna.');
+            }
+
+            // Ambil ID user yang baru ditambahkan
+            $userId = $this->db->insertID();
+
+            // Insert ke tabel order
+            $no_order = 'INV-' . date('Ym') . '-' . substr(md5(microtime(true)), 0, 4);
+            $dataOrder = [
+                'user_id' => $userId,
+                'total' => $data['total_harga'],
+                'status' => $data['status'],
+                'order_date' => $data['tanggal'],
+                'no_order' => $no_order,
+                'cost' => 0,
+                'payment_method' => 'cash',
+            ];
+            $this->insert($dataOrder);
+
+            if ($this->db->affectedRows() <= 0) {
+                throw new \Exception('Gagal menyimpan data pesanan.');
+            }
+
+            // Ambil ID order
+            $orderId = $this->db->insertID();
+
+            // Insert data order item
+            foreach ($data['product_variant_id'] as $key => $item) {
+                $orderItem = [
+                    'order_id' => $orderId,
+                    'product_variant_id' => $item->id,
+                    'price' => $data['price'][$key],
+                    'quantity' => $data['quantity'][$key],
+                ];
+                $this->db->table('order_item')->insert($orderItem);
+
+                // hapus stok pada tabel produk_varian
+                $this->db->table('produk_varian')->set('stock', 'stock - ' . $data['quantity'][$key], false)->where('id', $item->id)->update();
+
+                if ($this->db->affectedRows() <= 0) {
+                    throw new \Exception("Gagal menyimpan data order item untuk varian ID: {$item['id']}.");
+                }
+            }
+
+            // Insert ke tabel pembayaran
+            $dataPembayaran = [
+                'order_id' => $orderId,
+                'payment_date' => $data['tanggal'],
+                'payment_method' => 'cash',
+                'payment_status' => 'completed',
+            ];
+            $this->db->table('pembayaran')->insert($dataPembayaran);
+
+            if ($this->db->affectedRows() <= 0) {
+                throw new \Exception('Gagal menyimpan data pembayaran.');
+            }
+
+            $this->db->transComplete();
+
+            if ($this->db->transStatus() === false) {
+                throw new \Exception('Transaksi gagal diselesaikan.');
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            $this->db->transRollback();
+
+            // Log error untuk debugging
+            log_message('error', $e->getMessage());
+            log_message('error', $this->db->getLastQuery()); // Query terakhir
+            log_message('error', json_encode($this->db->error())); // Informasi error database
+
+            // Tampilkan pesan error untuk pengguna
+            throw new \Exception('Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+
+
     public function getOrderByUserId($userId)
     {
         // Ambil data order berdasarkan user_id
@@ -117,13 +217,16 @@ class OrderModel extends Model
     }
 
 
-    public function getOrder()
+    public function getOrder($keyword)
     {
         // relasi ke user
         $this->join('users', 'users.id = order.user_id');
         // select field
         $this->select('order.*, users.full_name as user_name');
         // where
+        if ($keyword) {
+            $this->like('order.status', $keyword);
+        }
         return $this->orderBy('order.id', 'DESC')->findAll();
     }
 
@@ -164,12 +267,13 @@ class OrderModel extends Model
 
         // tabel pembayaran
         $pembayaran = new PembayaranModel();
-        // where
+        // cek deadline pembayaran. Jika sudah lewat dari 1 hari, maka status order menjadi cancel
 
         $data = [
             'order' => $this->find($id),
             'order_item' => $orderItem->where('order_id', $id)->findAll(),
-            'pembayaran' => $pembayaran->where('order_id', $id)->first()
+            'pembayaran' => $pembayaran->where('order_id', $id)->first(),
+            'deadline' => date('Y-m-d H:i:s', strtotime('+1 day', strtotime($this->find($id)['order_date'])))
         ];
         return $data;
     }

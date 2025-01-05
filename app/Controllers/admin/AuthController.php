@@ -43,6 +43,8 @@ class AuthController extends BaseController
     public function signup()
     {
         $fullName = $this->request->getVar('full_name');
+        $alamat = $this->request->getVar('alamat');
+        $detail = $this->request->getVar('detail');
 
         // username adalah full name yang di lowercase tanpa spasi
         $username = strtolower(str_replace(' ', '', $fullName));
@@ -52,8 +54,16 @@ class AuthController extends BaseController
             'email' => $this->request->getVar('email'),
             'phone' => $this->request->getVar('phone'),
             'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
-            'role' => 'customer'
+            'role' => 'customer',
+            'address' => $alamat,
+            'address_detail' => $detail
         ];
+
+        // cek email sudah ada atau belum
+        $email = $this->user->where('email', $this->request->getVar('email'))->first();
+        if ($email) {
+            return redirect()->to(base_url('customer/register'))->with('error', 'Email Sudah Terdaftar');
+        }
 
         $this->user->insert($data);
         return redirect()->to(base_url('customer/login'))->with('success', 'Registrasi Berhasil, Silahkan Login');
