@@ -10,6 +10,15 @@
 <!-- Hero Section Begin -->
 <section class="hero">
     <div class="hero__slider owl-carousel">
+        <?php foreach ($promo as $value) : ?>
+            <!-- cek jika promo masih berlaku -->
+            <?php
+            $now = date('Y-m-d');
+            if ($now < $value['end_date'] && $now > $value['start_date']) : ?>
+                <div class="hero__items set-bg" data-setbg="<?= base_url('promo/') ?><?= $value['banner'] ?>">
+                </div>
+            <?php endif ?>
+        <?php endforeach ?>
         <div class="hero__items set-bg" data-setbg="<?= base_url('customer/') ?>img/hero/hero-3.jpg">
             <div class="container">
                 <div class="row">

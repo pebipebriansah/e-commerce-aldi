@@ -279,7 +279,6 @@ class ProdukModel extends Model
                     'price' => $variant['price'], // Harga
                     'color' => $variant['color'], // Warna
                     'stock' => $variant['stock'], // Stok
-                    'discount' => $variant['discount'], // Diskon
                 ]);
             }
         }

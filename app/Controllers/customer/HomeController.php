@@ -8,16 +8,19 @@ use CodeIgniter\HTTP\ResponseInterface;
 class HomeController extends BaseController
 {
     protected $produkModel;
+    protected $promoModel;
 
     public function __construct()
     {
         $this->produkModel = new \App\Models\ProdukModel();
+        $this->promoModel = new \App\Models\PromosiModel();
     }
     public function index()
     {
         $data = [
             'title' => 'Home',
-            'produk' => $this->produkModel->getProduk()
+            'produk' => $this->produkModel->getProduk(),
+            'promo' => $this->promoModel->findAll()
         ];
         return view('customer/home/home', $data);
     }

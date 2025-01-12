@@ -47,10 +47,6 @@
                                     <input type="number" class="form-control" name="price[]" placeholder="Harga" value="<?= $size['price'] ?>" required>
                                 </div>
                                 <div class="col-md-2">
-                                    <label for="price[]" class="form-label">Diskon (%)</label>
-                                    <input type="number" class="form-control" name="discount[]" placeholder="Harga" value="<?= $size['discount'] ?>" required>
-                                </div>
-                                <div class="col-md-2">
                                     <label for="stock[]" class="form-label">Stok</label>
                                     <input type="number" class="form-control" name="stock[]" placeholder="Stok" value="<?= $size['stock'] ?>" required>
                                 </div>
@@ -139,10 +135,6 @@
         <div class="col-md-2">
             <label for="price[]" class="form-label">Harga</label>
             <input type="number" class="form-control" name="price[]" placeholder="Harga" required>
-        </div>
-        <div class="col-md-2">
-            <label for="price[]" class="form-label">Diskon (%)</label>
-            <input type="number" class="form-control" name="discount[]" placeholder="Diskon" required>
         </div>
         <div class="col-md-2">
             <label for="stock[]" class="form-label">Stok</label>

@@ -35,6 +35,13 @@ $routes->group('admin', ['filter' => 'authAdmin', 'namespace' => 'App\Controller
     $routes->post('produk/delete', 'ProdukController::delete');
     $routes->get('produk/edit/(:num)', 'ProdukController::edit/$1');
 
+    $routes->get('promosi', 'PromosiController::index');
+    $routes->get('promosi/tambah', 'PromosiController::add');
+    $routes->post('promosi/tambah', 'PromosiController::addPromo');
+    $routes->get('promosi/edit/(:num)', 'PromosiController::edit/$1');
+    $routes->post('promosi/edit', 'PromosiController::update');
+    $routes->post('promosi/delete', 'PromosiController::delete');
+
     $routes->get('pesanan', 'PesananController::index');
     $routes->get('pesanan/getProduk', 'PesananController::getProduk');
     $routes->get('pesanan/getVariasiProduk/(:num)', 'PesananController::getVariasiProduk/$1');

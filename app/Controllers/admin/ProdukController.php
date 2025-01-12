@@ -143,7 +143,6 @@ class ProdukController extends BaseController
         $prices = $this->request->getPost('price');
         $stocks = $this->request->getPost('stock');
         $colors = $this->request->getPost('color');
-        $discounts = $this->request->getPost('discount');
 
 
         // Hapus gambar yang ditandai untuk dihapus
@@ -173,7 +172,6 @@ class ProdukController extends BaseController
                 'price' => $prices[$i],
                 'stock' => $stocks[$i],
                 'color' => $colors[$i],
-                'discount' => $discounts[$i]
             ];
         }
 

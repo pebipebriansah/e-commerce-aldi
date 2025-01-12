@@ -95,6 +95,14 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
+                                <a class="sidebar-link" href="<?= base_url('admin/promosi') ?>" aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-discount"></i>
+                                    </span>
+                                    <span class="hide-menu">Promosi</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
                                 <a class="sidebar-link" href="<?= base_url('admin/kategori') ?>" aria-expanded="false">
                                     <span>
                                         <i class="ti ti-hanger-2"></i>
