@@ -75,7 +75,7 @@
                                                         <div class="card-header">
                                                             <div class="d-flex justify-content-between">
                                                                 <h5>#<?= $order['no_order'] ?></h5>
-                                                                <h6><span class="badge badge-warning"><?= strtoupper($order['status']) ?></span></h6>
+                                                                <h6><span class="badge badge-warning"><?= strtoupper($order['status'] == "pending" ? 'Belum Bayar': '') ?></span></h6>
 
                                                             </div>
                                                         </div>
@@ -130,7 +130,7 @@
                                                         <div class="card-header">
                                                             <div class="d-flex justify-content-between">
                                                                 <h5>#<?= $order['no_order'] ?></h5>
-                                                                <h6><span class="badge badge-warning"><?= strtoupper($order['status']) ?></span></h6>
+                                                                <h6><span class="badge badge-warning"><?= strtoupper($order['status'] == 'paid' ? 'Dikemas' : '') ?></span></h6>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
@@ -183,7 +183,7 @@
                                                         <div class="card-header">
                                                             <div class="d-flex justify-content-between">
                                                                 <h5>#<?= $order['no_order'] ?></h5>
-                                                                <h6><span class="badge badge-warning"><?= strtoupper($order['status']) ?></span></h6>
+                                                                <h6><span class="badge badge-warning"><?= strtoupper($order['status'] == 'shipped' ? 'dikirim' : '') ?></span></h6>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
@@ -236,7 +236,7 @@
                                                         <div class="card-header">
                                                             <div class="d-flex justify-content-between">
                                                                 <h5>#<?= $order['no_order'] ?></h5>
-                                                                <h6><span class="badge badge-warning"><?= strtoupper($order['status']) ?></span></h6>
+                                                                <h6><span class="badge badge-warning"><?= strtoupper($order['status'] == 'completed' ? 'selesai' : '') ?></span></h6>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">
@@ -289,7 +289,7 @@
                                                         <div class="card-header">
                                                             <div class="d-flex justify-content-between">
                                                                 <h5>#<?= $order['no_order'] ?></h5>
-                                                                <h6><span class="badge badge-warning"><?= strtoupper($order['status']) ?></span></h6>
+                                                                <h6><span class="badge badge-warning"><?= strtoupper($order['status'] == 'cancelled' ? 'batal' : '') ?></span></h6>
                                                             </div>
                                                         </div>
                                                         <div class="card-body">

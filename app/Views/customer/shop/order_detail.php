@@ -64,7 +64,8 @@
                     <div class="breadcrumb__links">
                         <a href="./index.html">Home</a>
                         <a href="./shop.html">Shop</a>
-                        <span>Pesanan Saya</span>
+                        <a href="#">Pesanan Saya</a>
+                        <span>Detail</span>
                     </div>
                 </div>
             </div>

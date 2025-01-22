@@ -57,7 +57,7 @@
                                 <h6>Metode Pembayaran: <?= $data['order']['payment_method'] ?></h6>
                                 <!-- status pembayaran -->
                                 <?php if ($data['order']['status'] == 'pending') : ?>
-                                    <h6>Status Pembayaran: <span class="badge bg-danger">Pending</span></h6>
+                                    <h6>Status Pembayaran: <span class="badge bg-danger">Belum Bayar</span></h6>
                                 <?php elseif ($data['order']['status'] == 'paid') : ?>
                                     <h6>Status Pembayaran: <span class="badge bg-warning">Telah Membayar</span></h6>
                                 <?php elseif ($data['order']['status'] == 'shipped') : ?>

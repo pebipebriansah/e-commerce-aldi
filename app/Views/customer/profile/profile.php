@@ -78,6 +78,10 @@
                                 <input type="text" class="form-control" name="phone" id="subject" value="<?= $data['phone'] ?>" required>
                             </div>
                             <div class="mb-3">
+                                <label for="subject" class="form-label">Alamat</label>
+                                <input type="text" class="form-control" name="alamat" id="city" value="<?= $data['address'] ?>" required>
+                            </div>
+                            <div class="mb-3">
                                 <label for="subject" class="form-label">Password Baru</label>
                                 <input type="password" class="form-control" name="new_password" id="subject" required>
                             </div>

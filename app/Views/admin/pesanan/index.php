@@ -68,6 +68,17 @@
                         <tbody>
                             <?php
                             foreach ($data as $item) : ?>
+                            <?php if ($item['status'] == 'pending') : ?>
+                                <?php $status = 'Belum bayar'?>
+                            <?php elseif ($item['status'] == 'paid') :?>
+                                <?php $status = 'Dikemas'?>
+                            <?php elseif ($item['status'] =='shipped') :?>
+                                <?php $status = 'Dikirim'?>
+                            <?php elseif ($item['status'] == 'completed') :?>
+                                <?php $status = 'Selesai'?>
+                            <?php elseif ($item['status'] == 'cancelled') :?>
+                                <?php $status = 'Batal'?>
+                            <?php endif;?>
                                 <!-- jika status belum bayar -->
                                 <tr>
                                     <td class="border-bottom-0">
@@ -86,7 +97,7 @@
                                     </td>
                                     <td class="border-bottom-0">
                                         <div class="d-flex align-items-center gap-2">
-                                            <span class="badge bg-success rounded-3 fw-semibold"><?= $item['status'] ?></span>
+                                            <span class="badge bg-success rounded-3 fw-semibold"><?= $status ?></span>
                                         </div>
                                     </td>
                                     <td class="border-bottom-0">
