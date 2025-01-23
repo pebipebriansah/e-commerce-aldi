@@ -3,6 +3,7 @@
 <!-- render heder -->
 <?= $this->section('header'); ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 <?= $this->endSection(); ?>
 
@@ -78,8 +79,12 @@
                                 <input type="text" class="form-control" name="phone" id="subject" value="<?= $data['phone'] ?>" required>
                             </div>
                             <div class="mb-3">
-                                <label for="mySelect2" class="form-label">Alamat</label>
-                                <select id="mySelect2" name="alamat"></select>
+                                <label for="subject" class="form-label">Alamat</label>
+                                <input type="text" class="form-control" name="phone" id="subject" value="<?= $data['address'] ?>" readonly required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="alamatSelect" class="form-label">Alamat</label>
+                                <select id="alamatSelect" name="alamat" hidden></select>
                             </div>
                             <div class="mb-3">
                                 <label for="subject" class="form-label">Password Baru</label>
@@ -103,24 +108,31 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script>
-        
-        $('#mySelect2').select2({
-            ajax: {
-                delay: 1000,
-                dataType: 'json',
-                url: function(params) {
-                    return '/alamat?' + params.term;
-                },
-                processResults: function(data) {
-                    console.log(data);
-                    return {
-                        results: data.results
-                    };
-                }
-            },
-            placeholder: 'Masukan Desa...'
-        });
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+<script>
+    // Pastikan elemen asli tersembunyi sebelum Tom Select diinisialisasi
+    const selectElement = document.querySelector("#alamatSelect");
+    if (selectElement) {
+        selectElement.style.display = "none"; // Sembunyikan elemen asli
+    }
+
+    // Inisialisasi Tom Select
+    new TomSelect("#alamatSelect", {
+        valueField: 'id',
+        labelField: 'text',
+        searchField: 'text',
+        load: function(query, callback) {
+            if (!query.length) return callback();
+            fetch('/alamat?term=' + encodeURIComponent(query))
+                .then(response => response.json())
+                .then(json => {
+                    callback(json.results);
+                })
+                .catch(() => {
+                    callback();
+                });
+        },
+        placeholder: 'Masukan Desa...'
+    });
+</script>
 <?= $this->endSection(); ?>
