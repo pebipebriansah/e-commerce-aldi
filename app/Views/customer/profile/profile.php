@@ -2,6 +2,18 @@
 
 <!-- render heder -->
 <?= $this->section('header'); ?>
+<style>
+    .select2-container .select2-selection--single {
+    height: 38px; /* Sesuaikan dengan input Bootstrap */
+    padding: 6px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #495057
+}
+</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 <?= $this->endSection(); ?>
@@ -103,7 +115,7 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="<?= base_url('admin/') ?>assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         
