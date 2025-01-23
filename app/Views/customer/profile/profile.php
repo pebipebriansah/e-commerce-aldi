@@ -79,7 +79,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="mySelect2" class="form-label">Alamat</label>
-                                <input type="text" class="form-control" id="mySelect2" name="alamat">
+                                <select id="mySelect2" class="form-select" name="alamat"></select>
                             </div>
                             <div class="mb-3">
                                 <label for="subject" class="form-label">Password Baru</label>
