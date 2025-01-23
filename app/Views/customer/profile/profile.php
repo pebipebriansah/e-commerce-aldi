@@ -78,8 +78,8 @@
                                 <input type="text" class="form-control" name="phone" id="subject" value="<?= $data['phone'] ?>" required>
                             </div>
                             <div class="mb-3">
-                                <label for="subject" class="form-label">Alamat</label>
-                                <input type="text" class="form-control" name="alamat" id="city" value="<?= $data['address'] ?>" required>
+                                <label for="mySelect2" class="form-label">Alamat</label>
+                                <input type="text" class="form-control" id="mySelect2" name="alamat">
                             </div>
                             <div class="mb-3">
                                 <label for="subject" class="form-label">Password Baru</label>
@@ -103,5 +103,25 @@
 <?= $this->endSection(); ?>
 
 <?= $this->section('script'); ?>
-
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="<?= base_url('admin/') ?>assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        
+        $('#mySelect2').select2({
+            ajax: {
+                delay: 1000,
+                dataType: 'json',
+                url: function(params) {
+                    return '/alamat?' + params.term;
+                },
+                processResults: function(data) {
+                    console.log(data);
+                    return {
+                        results: data.results
+                    };
+                }
+            },
+            placeholder: 'Masukan Desa...'
+        });
+    </script>
 <?= $this->endSection(); ?>

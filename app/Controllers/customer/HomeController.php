@@ -76,6 +76,7 @@ class HomeController extends BaseController
         $data = [
             'full_name' => $this->request->getPost('name'),
             'email' => $this->request->getPost('email'),
+            'address' => $this->request->getPost('alamat'),
             'phone' => $this->request->getPost('phone'),
             'password' => password_hash($password_baru, PASSWORD_DEFAULT)
         ];
