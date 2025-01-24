@@ -93,10 +93,11 @@
                                 <input type="text" class="form-control" name="phone" id="subject" value="<?= $data['phone'] ?>" required>
                             </div>
                             <div class="mb-3">
-                                <label for="subject" class="form-label">Alamat</label>
+                                <label for="subject" class="form-label">Alamat Sekarang</label>
                                 <input type="text" class="form-control" id="subject" value="<?= $data['address'] ?>" readonly required>
+                                <a href="#" id="editAlamatLink" class="text-primary mt-2 d-block" style="cursor: pointer;">Edit Alamat</a>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" id="alamatSelectContainer" style="display: none;">
                                 <label for="alamatSelect" class="form-label">Alamat</label>
                                 <select id="alamatSelect" name="alamat"></select>
                             </div>
@@ -125,32 +126,54 @@
 <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
 <script>
     document.querySelectorAll(".nice-select").forEach(function(el) {
-    el.remove(); // Hapus elemen Nice Select yang sudah dibuat
-});
+        el.remove();
+    });
 
-    // Pastikan elemen asli tersembunyi sebelum Tom Select diinisialisasi
-    const selectElement = document.querySelector("#alamatSelect");
-    if (selectElement) {
-        selectElement.style.display = "none"; // Sembunyikan elemen asli
+    // Debugging langkah pertama
+    console.log('Script dimuat.');
+
+    // Cek keberadaan elemen
+    const editAlamatLink = document.getElementById('editAlamatLink');
+    const alamatSelectContainer = document.getElementById('alamatSelectContainer');
+    const alamatSelect = document.getElementById('alamatSelect');
+
+    if (!editAlamatLink || !alamatSelectContainer || !alamatSelect) {
+        console.error('Salah satu elemen tidak ditemukan!');
     }
+
+    // Event klik untuk tombol "Edit Alamat"
+    editAlamatLink.addEventListener('click', function (e) {
+        e.preventDefault(); // Hindari reload halaman
+        console.log('Tombol Edit Alamat diklik.');
+
+        // Toggle visibilitas dropdown
+        if (alamatSelectContainer.style.display === 'none') {
+            alamatSelectContainer.style.display = 'block'; // Tampilkan dropdown
+            editAlamatLink.textContent = 'Batal'; // Ubah teks ke "Batal"
+            console.log('AlamatSelectContainer ditampilkan, tombol diubah menjadi "Batal".');
+        } else {
+            alamatSelectContainer.style.display = 'none'; // Sembunyikan dropdown
+            editAlamatLink.textContent = 'Edit Alamat'; // Ubah teks ke "Edit Alamat"
+            console.log('AlamatSelectContainer disembunyikan, tombol diubah menjadi "Edit Alamat".');
+        }
+    });
 
     // Inisialisasi Tom Select
     new TomSelect("#alamatSelect", {
         valueField: 'id',
         labelField: 'text',
         searchField: 'text',
-        load: function(query, callback) {
+        placeholder: 'Masukkan Desa...',
+        load: function (query, callback) {
             if (!query.length) return callback();
             fetch('/alamat?term=' + encodeURIComponent(query))
                 .then(response => response.json())
                 .then(json => {
                     callback(json.results);
-                })
-                .catch(() => {
+                }).catch(() => {
                     callback();
                 });
-        },
-        placeholder: 'Masukan Desa...'
+        }
     });
 </script>
 <script>
