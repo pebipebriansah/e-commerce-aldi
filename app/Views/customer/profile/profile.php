@@ -93,9 +93,39 @@
                                 <input type="text" class="form-control" name="phone" id="subject" value="<?= $data['phone'] ?>" required>
                             </div>
                             <div class="mb-3">
-                                <label for="subject" class="form-label">Alamat Sekarang</label>
-                                <input type="text" class="form-control" id="subject" value="<?= $data['address'] ?>" readonly required>
-                                <a href="#" id="editAlamatLink" class="text-primary mt-2 d-block" style="cursor: pointer;">Edit Alamat</a>
+                                <label for="detailAlamat" class="form-label">Detail Alamat</label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="detailAlamat" 
+                                    value="<?= $data['address_detail'] ?>" 
+                                    readonly 
+                                    required
+                                >
+                            </div>
+                            <div class="mb-3">
+                                <label for="alamatSekarang" class="form-label">Alamat Sekarang</label>
+                                <div class="d-flex flex-column">
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        id="alamatSekarang" 
+                                        value="<?= $data['address'] ?>" 
+                                        readonly 
+                                        required
+                                    >
+                                    <a 
+                                        href="#" 
+                                        id="editAlamatLink" 
+                                        class="text-primary mt-2"
+                                    >
+                                        Edit Alamat
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="mb-3" id="addressSelectContainer" style="display: none;">
+                                <label for="detailAddress" class="form-label">Detail</label>
+                                <input type="text" id="detailAddress" class="form-control" name="detail_alamat" placeholder="Contoh : Jl. / Patokan. RT/Rw">
                             </div>
                             <div class="mb-3" id="alamatSelectContainer" style="display: none;">
                                 <label for="alamatSelect" class="form-label">Alamat</label>
@@ -135,6 +165,7 @@
     // Cek keberadaan elemen
     const editAlamatLink = document.getElementById('editAlamatLink');
     const alamatSelectContainer = document.getElementById('alamatSelectContainer');
+    const addressSelectContainer = document.getElementById('addressSelectContainer');
     const alamatSelect = document.getElementById('alamatSelect');
 
     if (!editAlamatLink || !alamatSelectContainer || !alamatSelect) {
@@ -149,10 +180,12 @@
         // Toggle visibilitas dropdown
         if (alamatSelectContainer.style.display === 'none') {
             alamatSelectContainer.style.display = 'block'; // Tampilkan dropdown
+            addressSelectContainer.style.display = 'block'; // Sembunyikan input detail alamat
             editAlamatLink.textContent = 'Batal'; // Ubah teks ke "Batal"
             console.log('AlamatSelectContainer ditampilkan, tombol diubah menjadi "Batal".');
         } else {
             alamatSelectContainer.style.display = 'none'; // Sembunyikan dropdown
+            addressSelectContainer.style.display = 'none'; // Sembunyikan input detail alamat
             editAlamatLink.textContent = 'Edit Alamat'; // Ubah teks ke "Edit Alamat"
             console.log('AlamatSelectContainer disembunyikan, tombol diubah menjadi "Edit Alamat".');
         }

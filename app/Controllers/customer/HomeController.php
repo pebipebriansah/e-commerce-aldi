@@ -94,9 +94,11 @@ class HomeController extends BaseController
     ];
 
     // Update alamat jika diisi
+    $detail_alamat = $this->request->getPost('detail_alamat');
     $alamat = $this->request->getPost('alamat');
     if (!empty($alamat)) {
         $data['address'] = $alamat;
+        $data['address_detail'] = $detail_alamat;
     }
 
     // Update password jika diisi

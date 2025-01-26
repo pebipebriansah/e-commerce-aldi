@@ -82,6 +82,23 @@
 
             <?php $order = $data['order'];
             $order_item = $data['order_item']; ?>
+            <?php
+                $statusText = '';
+
+                if ($order['status'] == 'pending') {
+                    $statusText = 'Belum Bayar';
+                } elseif ($order['status'] == 'paid') {
+                    $statusText = 'Dikemas';
+                } elseif ($order['status'] == 'shipped') {
+                    $statusText = 'Dikirim';
+                } elseif ($order['status'] == 'completed') {
+                    $statusText = 'Selesai';
+                } elseif ($order['status'] == 'cancelled') {
+                    $statusText = 'Batal';
+                } else {
+                    $statusText = 'Status Tidak Dikenal'; // Opsional: Untuk menangani status yang tidak terdaftar
+                }
+                ?>
 
             <div class="col-12 mt-2">
                 <div class="card">
@@ -89,7 +106,7 @@
                         <div class="d-flex justify-content-between">
                             <h5>#<?= $order['no_order'] ?></h5>
                             <div>
-                                <p class="badge badge-warning"><?= strtoupper($order['status']) ?></p>
+                                <p class="badge badge-warning"><?= strtoupper($statusText) ?></p>
                                 <!-- jika status shipped tampilkan button pesanan diterima -->
                                 <?php if ($order['status'] == 'shipped') : ?>
                                     <a href="<?= base_url('shop/order/confirm/' . $order['id']) ?>" class="btn btn-success">Pesanan Diterima</a>
@@ -201,7 +218,13 @@
                                 <div class="card-header">
                                     <div class="d-flex justify-content-between">
                                         Bukti Pembayaran
-                                        <span class="badge badge-warning"><?= strtoupper($data['pembayaran']['payment_status']) ?></span>
+                                        <span class="badge badge-warning">
+                                            <?= strtoupper(
+                                            $data['pembayaran']['payment_status'] == 'pending' ? 'Belum Bayar' : 
+                                            ($data['pembayaran']['payment_status'] == 'completed' ? 'Selesai' : 
+                                            ($data['pembayaran']['payment_status'] == 'failed' ? 'Batal' : ''))
+                                            )?>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="card-body">
